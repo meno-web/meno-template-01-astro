@@ -1,0 +1,51 @@
+---
+import { inlineStyle, resolveProps, style } from 'meno-astro';
+
+const __props = resolveProps(Astro, {
+  alt: { type: "string", default: "" },
+  loading: { type: "select", default: "lazy", options: ["lazy", "eager"] },
+  objectFit: {
+    type: "select",
+    default: "cover",
+    options: ["cover", "contain", "fill", "scale-down"]
+  },
+  image: {
+    type: "file",
+    default: "/images/placeholder-img.webp",
+    accept: "image/*"
+  },
+  fetchpriority: {
+    type: "select",
+    default: "auto",
+    options: ["auto", "high", "low"]
+  },
+  sizes: { type: "string", default: "" },
+  aspectRatio: { type: "string", default: "" },
+  fade: { type: "string", default: "" }
+});
+const {
+  alt,
+  loading,
+  objectFit,
+  image,
+  fetchpriority,
+  sizes,
+  aspectRatio,
+  fade,
+  class: className,
+} = __props;
+
+const __meno = { acceptsStyles: true };
+---
+<img class={style({
+    base: {
+      display: "block",
+      objectFit: "{{objectFit}}",
+      borderColor: "var(--border)",
+      aspectRatio: "{{aspectRatio}}",
+      width: "100%",
+      height: "100%"
+    },
+    tablet: {},
+    mobile: {}
+  }, __props, { root: true })} style={inlineStyle({ "object-fit": `${objectFit}`, "aspect-ratio": `${aspectRatio}` }, __props)} src={image || undefined} alt={alt || undefined} loading={loading || undefined} fetchpriority={fetchpriority || undefined} sizes={sizes || undefined} fade={fade || undefined} />

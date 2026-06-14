@@ -1,0 +1,37 @@
+---
+import { resolveProps, style } from 'meno-astro';
+
+const __props = resolveProps(Astro, {
+  fade: { type: "string", default: "" },
+  content: { type: "rich-text", default: "Rich text", editor: "extended" }
+});
+const { fade, content, class: className } = __props;
+---
+<div class={style({
+    base: {
+      lineHeight: "1.7",
+      fontSize: "18px",
+      color: "var(--text)",
+      letterSpacing: "-0.01em"
+    },
+    tablet: {},
+    mobile: {}
+  }, __props, { root: true })} cmsrt={true} fade={fade || undefined}><Fragment set:html={content} /></div>
+
+
+<style is:global>
+[cmsrt] h1,
+[cmsrt] h2,
+[cmsrt] h3,
+[cmsrt] h4,
+[cmsrt] h5,
+[cmsrt] h6 {
+  font-weight: 450;
+  margin-top: 32px;
+  margin-bottom: 4px;
+}
+
+[cmsrt] h2 {
+  font-size: 36px;
+}
+</style>

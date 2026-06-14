@@ -1,0 +1,11 @@
+---
+import { BaseLayout } from 'meno-astro/components';
+import BlogPostList from '../components/section/BlogPostList.astro';
+import Layout from '../components/layout/Layout.astro';
+import '../styles/theme.css';
+
+const meta = { title: "Blog", description: "Latest articles and updates" };
+---
+<BaseLayout meta={meta}>
+  <Layout><BlogPostList /></Layout>
+</BaseLayout>

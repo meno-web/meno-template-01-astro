@@ -1,0 +1,64 @@
+---
+import { list, resolveProps, style } from 'meno-astro';
+import FaqItem from '../block/FaqItem.astro';
+import FaqList from '../block/FaqList.astro';
+import Heading from '../ui/Heading.astro';
+import Section from '../ui/Section.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Subtitle from '../ui/Subtitle.astro';
+import Text from '../ui/Text.astro';
+
+const __props = resolveProps(Astro, {
+  subtitle: { type: "string", default: "FAQ" },
+  title: { type: "rich-text", default: "Frequently asked questions" },
+  text: {
+    type: "rich-text",
+    default: "Short supporting description that previews how this section looks and reads in the editor."
+  },
+  theme: { type: "select", default: "primary", enumName: "theme" },
+  items: {
+    type: "list",
+    itemSchema: {
+      title: { type: "string", default: "Question?" },
+      text: { type: "rich-text", default: "Answer goes here." },
+      isOpen: { type: "boolean", default: false }
+    },
+    default: [
+      {
+        title: "Your first question?",
+        text: "Short answer that previews how this accordion item looks and reads in the editor. Replace with your own content.",
+        isOpen: true
+      },
+      {
+        title: "Your second question?",
+        text: "Short answer that previews how this accordion item looks and reads in the editor. Replace with your own content."
+      },
+      {
+        title: "Your third question?",
+        text: "Short answer that previews how this accordion item looks and reads in the editor. Replace with your own content."
+      },
+      {
+        title: "Your fourth question?",
+        text: "Short answer that previews how this accordion item looks and reads in the editor. Replace with your own content."
+      }
+    ]
+  }
+});
+const { subtitle, title, text, theme, items, class: className } = __props;
+---
+<Section spaceTop="default" spaceBottom="default" theme={theme} maxWidth="1280" class={style({}, __props, { root: true })}>
+  <SectionHeader isCenter={false} maxWidth="">
+    {subtitle && (
+      <Subtitle text={subtitle} fade="0" align="left" />
+    )}
+    <Heading text={title} size="2" tag="2" fade="0.2" align="left" />
+    {text && (
+      <Text text={text} size="large" fade="0.4" align="left" />
+    )}
+  </SectionHeader>
+  <FaqList>
+    {list(items).map((item, itemIndex) => (
+      <FaqItem question={item.title} answer={item.text} isOpen={item.isOpen} fade={0.4+itemIndex*0.2} />
+    ))}
+  </FaqList>
+</Section>

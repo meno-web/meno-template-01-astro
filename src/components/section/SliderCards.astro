@@ -1,0 +1,114 @@
+---
+import { list, resolveProps, style } from 'meno-astro';
+import Heading from '../ui/Heading.astro';
+import Image from '../ui/Image.astro';
+import Section from '../ui/Section.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Slider from '../block/Slider.astro';
+import Subtitle from '../ui/Subtitle.astro';
+import Text from '../ui/Text.astro';
+
+const __props = resolveProps(Astro, {
+  subtitle: { type: "string", default: "Features" },
+  title: { type: "rich-text", default: "Your section heading" },
+  text: {
+    type: "rich-text",
+    default: "Short supporting description that previews how this section looks and reads in the editor."
+  },
+  items: {
+    type: "list",
+    itemSchema: {
+      image: { type: "file", default: "/images/placeholder-img.webp" },
+      title: { type: "string", default: "Card title" },
+      text: { type: "rich-text" }
+    },
+    default: [
+      {
+        image: "/images/placeholder-img.webp",
+        title: "Card title",
+        text: "Short description of this item that previews how the slider looks and reads in the editor."
+      },
+      {
+        image: "/images/placeholder-img.webp",
+        title: "Card title",
+        text: "Short description of this item that previews how the slider looks and reads in the editor."
+      },
+      {
+        image: "/images/placeholder-img.webp",
+        title: "Card title",
+        text: "Short description of this item that previews how the slider looks and reads in the editor."
+      },
+      {
+        image: "/images/placeholder-img.webp",
+        title: "Card title",
+        text: "Short description of this item that previews how the slider looks and reads in the editor."
+      },
+      {
+        image: "/images/placeholder-img.webp",
+        title: "Card title",
+        text: "Short description of this item that previews how the slider looks and reads in the editor."
+      },
+      {
+        image: "/images/placeholder-img.webp",
+        title: "Card title",
+        text: "Short description of this item that previews how the slider looks and reads in the editor."
+      },
+      {
+        image: "/images/placeholder-img.webp",
+        title: "Card title",
+        text: "Short description of this item that previews how the slider looks and reads in the editor."
+      },
+      {
+        image: "/images/placeholder-img.webp",
+        title: "Card title",
+        text: "Short description of this item that previews how the slider looks and reads in the editor."
+      }
+    ]
+  },
+  autoplay: { type: "boolean", default: false },
+  loop: { type: "boolean", default: true },
+  theme: { type: "select", default: "primary", enumName: "theme" },
+  cropped: { type: "boolean", default: false }
+});
+const {
+  subtitle,
+  title,
+  text,
+  items,
+  autoplay,
+  loop,
+  theme,
+  cropped,
+  class: className,
+} = __props;
+---
+<Section theme={theme} spaceTop="default" cropped={!cropped} class={style({}, __props, { root: true })}>
+  <SectionHeader isCenter={true} maxWidth="600px">
+    {subtitle && (
+      <Subtitle text={subtitle} align="center" fade="0" />
+    )}
+    <Heading text={title} maxWidth="" align="center" size="2" tag="2" fade="0.2" />
+    {text && (
+      <Text text={text} size="large" align="center" maxWidth="360px" fade="0.4" />
+    )}
+  </SectionHeader>
+  <Slider gap={20} autoplay={autoplay} loop={loop} columns="3" cropped={cropped} fade="0.4">
+    {list(items).map((item, itemIndex) => (
+      <div class={style({
+          base: {
+            backgroundColor: "var(--bg-100)",
+            borderRadius: "12px",
+            overflow: "hidden"
+          },
+          tablet: {},
+          mobile: {}
+        }, __props, { label: "Card" })}>
+        <Image image={item.image} aspectRatio="16/9" height="auto" width="100%" class={style({ base: { width: "100%", height: "auto" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { width: "100%", height: "auto" }, tablet: {}, mobile: {} }} />
+        <div class={style({ base: { padding: "24px" } }, __props, { label: "Card Body" })}>
+          <Heading text={item.title} size="4" />
+          <Text size="default" variant="default" text={item.text} />
+        </div>
+      </div>
+    ))}
+  </Slider>
+</Section>

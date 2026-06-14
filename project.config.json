@@ -84,5 +84,14 @@
     ]
   },
   "deploymentMethod": "cloudflare",
-  "name": "meno-template-01-astro"
+  "name": "meno-template-01-astro",
+  "format": "astro",
+  "__componentLibraries": {
+    "js": [
+      {
+        "url": "/libraries/embla-carousel.umd.js"
+      }
+    ],
+    "css": []
+  }
 }

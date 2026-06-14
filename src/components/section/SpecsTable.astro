@@ -1,0 +1,55 @@
+---
+import { list, resolveProps, style } from 'meno-astro';
+import Heading from '../ui/Heading.astro';
+import Section from '../ui/Section.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+import Spacer from '../ui/Spacer.astro';
+import Subtitle from '../ui/Subtitle.astro';
+import Table from '../ui/Table.astro';
+import TableRow from '../ui/TableRow.astro';
+import Text from '../ui/Text.astro';
+
+const __props = resolveProps(Astro, {
+  subtitle: { type: "string", default: "Details" },
+  title: { type: "rich-text", default: "Your specifications heading" },
+  text: {
+    type: "rich-text",
+    default: "Short supporting description that previews how this section looks and reads in the editor."
+  },
+  theme: { type: "select", default: "primary", enumName: "theme" },
+  items: {
+    type: "list",
+    itemSchema: {
+      label: { type: "string", default: "Feature" },
+      value: { type: "string", default: "Description" }
+    },
+    default: [
+      { label: "Specification one", value: "Value or description" },
+      { label: "Specification two", value: "Value or description" },
+      { label: "Specification three", value: "Value or description" },
+      { label: "Specification four", value: "Value or description" },
+      { label: "Specification five", value: "Value or description" },
+      { label: "Specification six", value: "Value or description" },
+      { label: "Specification seven", value: "Value or description" }
+    ]
+  }
+});
+const { subtitle, title, text, theme, items, class: className } = __props;
+---
+<Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
+  <SectionHeader isCenter={true} maxWidth="600px">
+    {subtitle && (
+      <Subtitle text={subtitle} align="center" fade="0" />
+    )}
+    <Heading text={title} size="2" tag="2" align="center" fade="0.2" />
+    {text && (
+      <Text text={text} size="large" align="center" fade="0.4" />
+    )}
+  </SectionHeader>
+  <Spacer size="48" />
+  <Table fade="0.4">
+    {list(items).map((item, itemIndex) => (
+      <TableRow label={item.label} value={item.value} />
+    ))}
+  </Table>
+</Section>

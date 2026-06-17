@@ -10,7 +10,7 @@
     },
     "mobile": {
       "breakpoint": 540,
-      "previewPoint": 375
+      "previewPoint": 400
     }
   },
   "fonts": [
@@ -26,7 +26,7 @@
     "baseReference": 16,
     "fontSize": {
       "tablet": 0.88,
-      "mobile": 0.75
+      "mobile": 0.6
     },
     "padding": {
       "tablet": 0.75,

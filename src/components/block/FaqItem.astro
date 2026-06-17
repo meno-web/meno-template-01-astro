@@ -42,8 +42,7 @@ const { question, answer, isOpen, fade, class: className } = __props;
       ],
       label: "question"
     })} data-el="question">
-    {""}
-    <div class={style({ base: { flex: "1", minWidth: "0", marginBottom: "calc(-1 * var(--h3-s))" } }, __props)}><Heading text={question} tag="4" variant="default" size="3" /></div>
+    <div class={style({ base: { flex: "1", minWidth: "0" }, tablet: {}, mobile: {} }, __props)}><Heading text={question} tag="4" variant="default" size="3" isMb0={false} /></div>
     <span class={style({
         base: {
           display: "flex",
@@ -86,14 +85,7 @@ const { question, answer, isOpen, fade, class: className } = __props;
         }
       ],
       label: "answer"
-    })} data-el="answer">
-    <div class={style({ base: { overflow: "hidden", minHeight: "0" } }, __props)}>
-      <div class={style({ base: { paddingBottom: "30px" } }, __props)}>
-        {""}
-        <Text size="default" text={`${answer} `} variant="default" />
-      </div>
-    </div>
-  </dd>
+    })} data-el="answer"><div class={style({ base: { overflow: "hidden", minHeight: "0" } }, __props)}><div class={style({ base: { paddingBottom: "30px" } }, __props)}><Text size="default" text={`${answer} `} variant="default" /></div></div></dd>
 </div>
 
 

@@ -3,7 +3,6 @@ import { list, resolveProps, style } from 'meno-astro';
 import Grid from '../ui/Grid.astro';
 import Heading from '../ui/Heading.astro';
 import Section from '../ui/Section.astro';
-import SectionHeader from '../ui/SectionHeader.astro';
 import Subtitle from '../ui/Subtitle.astro';
 import Text from '../ui/Text.astro';
 
@@ -53,7 +52,7 @@ const {
 } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={isCenter}>
+  <div class={style({ base: { display: "flex", flexDirection: "column", alignItems: { _mapping: true, prop: "isCenter", values: { default: "flex-start", true: "center", false: "flex-start" } }, marginBottom: "var(--sh-mb)", marginRight: "auto", marginLeft: "auto" }, tablet: {}, mobile: {} }, __props)}>
     {subtitle && (
       <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: { _mapping: true, prop: "isCenter", values: { default: "left", true: "center", false: "left" } } }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: { _mapping: true, prop: "isCenter", values: { default: "left", true: "center", false: "left" } } }, tablet: {}, mobile: {} }} />
     )}
@@ -61,7 +60,7 @@ const {
     {text && (
       <Text text={text} size="large" fade="0.4" class={style({ base: { maxWidth: "580px", textAlign: { _mapping: true, prop: "isCenter", values: { default: "left", true: "center", false: "left" } } }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "580px", textAlign: { _mapping: true, prop: "isCenter", values: { default: "left", true: "center", false: "left" } } }, tablet: {}, mobile: {} }} />
     )}
-  </SectionHeader>
+  </div>
   <Grid columns="1" gap="24" fade="0.4">
     {list(items).map((item, itemIndex) => (
       <div class={style({

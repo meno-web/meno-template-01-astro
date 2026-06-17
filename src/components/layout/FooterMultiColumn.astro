@@ -92,7 +92,7 @@ const {
       <Text text={tagline} class={style({ base: { maxWidth: "320px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "320px" }, tablet: {}, mobile: {} }} />
     </div>
     <div>
-      <Subtitle text={column1Title} variant="default" />
+      <Subtitle text={column1Title} />
       <nav class={style({ base: { display: "flex", flexDirection: "column", gap: "12px" } }, __props)}>
         {list(column1Links).map((link, linkIndex) => (
           <FooterLink link={{ href: link.href }} text={link.text} />
@@ -100,7 +100,7 @@ const {
       </nav>
     </div>
     <div>
-      <Subtitle text={column2Title} variant="default" />
+      <Subtitle text={column2Title} />
       <nav class={style({ base: { display: "flex", flexDirection: "column", gap: "12px" } }, __props)}>
         {list(column2Links).map((link, linkIndex) => (
           <FooterLink link={{ href: link.href }} text={link.text} />
@@ -108,7 +108,7 @@ const {
       </nav>
     </div>
     <div>
-      <Subtitle text={column3Title} variant="default" />
+      <Subtitle text={column3Title} />
       <nav class={style({ base: { display: "flex", flexDirection: "column", gap: "12px" } }, __props)}>
         {list(column3Links).map((link, linkIndex) => (
           <FooterLink link={{ href: link.href }} text={link.text} />

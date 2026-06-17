@@ -73,7 +73,7 @@ const { subtitle, title, text, items, theme, class: className } = __props;
             }
           }, __props)}><Image image={item.image} alt={item.title} objectFit="cover" width="100%" height="100%" /></div>
         <Heading text={item.title} size="5" tag="3" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
-        <Text text={item.text} size="small" variant="light" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+        <Text text={item.text} size="small" class={style({ base: { textAlign: "center", color: "var(--text-100)" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center", color: "var(--text-100)" }, tablet: {}, mobile: {} }} />
       </div>
     ))}
   </Grid>

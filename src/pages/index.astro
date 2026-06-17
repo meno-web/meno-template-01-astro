@@ -1,6 +1,7 @@
 ---
 import { BaseLayout } from 'meno-astro/components';
 import BlogCardGrid from '../components/section/BlogCardGrid.astro';
+import BlogPostList from '../components/section/BlogPostList.astro';
 import CTACentered from '../components/section/CTACentered.astro';
 import FaqAccordion from '../components/section/FaqAccordion.astro';
 import HeroCentered from '../components/section/HeroCentered.astro';
@@ -18,6 +19,7 @@ const meta = {
   <Layout>
     <HeroCentered title={`Everything you need to build <span class="custom-span">professional</span> website`} text="Design and publish professional websites without writing code. Start with this template and make it yours in minutes." theme="light" secondaryButtonText="Secondary action" />
     <SliderCards />
+    <BlogPostList />
     <TimelineVertical title="Simple steps to get started" subtitle="How It Works" text="Follow these easy steps to begin your journey with us." items={[
         {
           title: "Sign up for free",

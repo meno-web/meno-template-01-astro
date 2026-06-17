@@ -76,7 +76,7 @@ const { subtitle, title, text, items, theme, class: className } = __props;
           <Avatar image={item.image} alt={item.title} size="large" />
           <div>
             <Heading text={item.title} size="6" tag="0" />
-            <Text text={item.label} variant="light" size="small" />
+            <Text text={item.label} size="small" class={style({ base: { color: "var(--text-100)" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { color: "var(--text-100)" }, tablet: {}, mobile: {} }} />
           </div>
         </div>
       </Card>

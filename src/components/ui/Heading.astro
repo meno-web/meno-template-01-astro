@@ -8,7 +8,6 @@ const __props = resolveProps(Astro, {
     default: "1",
     options: ["1", "2", "3", "4", "5", "6"]
   },
-  variant: { type: "select", default: "default", options: ["default", "light"] },
   tag: {
     type: "select",
     default: "size",
@@ -17,7 +16,7 @@ const __props = resolveProps(Astro, {
   fade: { type: "string", default: "" },
   isMb0: { type: "boolean", default: false }
 });
-const { text, size, variant, tag, fade, isMb0, class: className } = __props;
+const { text, size, tag, fade, isMb0, class: className } = __props;
 
 const __meno = { acceptsStyles: true };
 
@@ -54,11 +53,7 @@ const Tag_0 = `h${tag === "size" ? size : tag}`;
       },
       letterSpacing: "var(--h-ls)",
       lineHeight: "var(--h-lh)",
-      color: {
-        _mapping: true,
-        prop: "variant",
-        values: { default: "var(--text)", light: "var(--text-100)" }
-      }
+      color: "var(--text)"
     },
     tablet: {},
     mobile: {}

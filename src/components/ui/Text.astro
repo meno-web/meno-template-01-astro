@@ -2,11 +2,6 @@
 import { resolveProps, style } from 'meno-astro';
 
 const __props = resolveProps(Astro, {
-  variant: {
-    type: "select",
-    default: "default",
-    options: ["default", "light", "lighter"]
-  },
   size: {
     type: "select",
     default: "default",
@@ -16,7 +11,6 @@ const __props = resolveProps(Astro, {
   fade: { type: "string", default: "" }
 });
 const {
-  variant,
   size,
   text,
   fade,
@@ -38,15 +32,7 @@ const __meno = { acceptsStyles: true };
       },
       lineHeight: "150%",
       fontWeight: "var(--t-fw)",
-      color: {
-        _mapping: true,
-        prop: "variant",
-        values: {
-          default: "var(--text)",
-          light: "var(--text-100)",
-          lighter: "var(--text-200)"
-        }
-      }
+      color: "var(--text)"
     },
     tablet: {},
     mobile: {}

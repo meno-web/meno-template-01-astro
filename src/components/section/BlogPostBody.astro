@@ -19,7 +19,7 @@ const { cms } = Astro.props;
       <Image aspectRatio="16/6" image={i18n(cms.featuredImage)} rounded="medium" fade="0" cms={cms} />
       <Spacer size="32" cms={cms} />
       <Heading text={i18n(cms.title)} size="2" tag="1" fade="0.2" cms={cms} />
-      <Text text={i18n(cms.publishedAt)} size="small" variant="lighter" fade="0.4" cms={cms} />
+      <Text text={i18n(cms.publishedAt)} size="small" fade="0.4" cms={cms} class={style({ base: { color: "var(--text-200)" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { color: "var(--text-200)" }, tablet: {}, mobile: {} }} />
     </header>
     <Spacer size="32" cms={cms} />
     <RichText content={i18n(cms.content)} cms={cms} />

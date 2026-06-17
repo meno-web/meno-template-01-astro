@@ -37,7 +37,7 @@ const { quote, name, role, avatar, fade, class: className } = __props;
     <Image image={avatar} alt={name} objectFit="cover" rounded="large" height="48px" width="48px" />
     <div class={style({ base: { display: "flex", flexDirection: "column", gap: "0" } }, __props)}>
       <Heading text={name} size="6" tag="3" />
-      <Text text={role} size="small" variant="light" />
+      <Text text={role} size="small" class={style({ base: { color: "var(--text-100)" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { color: "var(--text-100)" }, tablet: {}, mobile: {} }} />
     </div>
   </footer>
 </blockquote>

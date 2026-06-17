@@ -103,7 +103,7 @@ const { subtitle, title, text, items, theme, class: className } = __props;
           <Heading text={item.title} size="5" tag="3" />
           <span class={style({ base: { fontSize: "13px", color: "var(--text-100)" } }, __props)}>{item.date}</span>
           <Spacer size="16" />
-          <Text text={item.text} size="small" variant="light" />
+          <Text text={item.text} size="small" class={style({ base: { color: "var(--text-100)" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { color: "var(--text-100)" }, tablet: {}, mobile: {} }} />
         </div>
       </Link>
     ))}

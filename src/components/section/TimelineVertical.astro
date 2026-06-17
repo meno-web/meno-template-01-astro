@@ -56,11 +56,11 @@ const { subtitle, title, text, items, theme, class: className } = __props;
       mobile: {}
     }, __props)}>
     {subtitle && (
-      <Subtitle text={subtitle} fade="0" variant="default" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
     <Heading text={title} size="2" fade="0.2" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" fade="0.4" variant="default" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Text text={text} size="large" fade="0.4" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
   </div>
   <div class={style({ base: { maxWidth: "700px", margin: "0 auto" } }, __props)}>
@@ -104,7 +104,7 @@ const { subtitle, title, text, items, theme, class: className } = __props;
         </div>
         <div class={style({ base: { paddingBottom: "48px", flex: "1", minWidth: "0" } }, __props)}>
           <Heading text={item.title} size="5" tag="3" />
-          <Text text={item.text} variant="light" />
+          <Text text={item.text} class={style({ base: { color: "var(--text-100)" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { color: "var(--text-100)" }, tablet: {}, mobile: {} }} />
         </div>
       </div>
     ))}

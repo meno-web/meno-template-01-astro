@@ -39,11 +39,11 @@ const { subtitle, title, text, theme, items, class: className } = __props;
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
   <SectionHeader isCenter={true} class={style({ base: { maxWidth: "600px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "600px" }, tablet: {}, mobile: {} }}>
     {subtitle && (
-      <Subtitle text={subtitle} align="center" fade="0" />
+      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
-    <Heading text={title} size="2" tag="2" align="center" fade="0.2" />
+    <Heading text={title} size="2" tag="2" fade="0.2" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" align="center" fade="0.4" />
+      <Text text={text} size="large" fade="0.4" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
   </SectionHeader>
   <Spacer size="48" />

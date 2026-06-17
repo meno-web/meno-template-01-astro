@@ -37,15 +37,15 @@ const {
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
   <SectionHeader isCenter={true} class={style({ base: { maxWidth: "500px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "500px" }, tablet: {}, mobile: {} }}>
     {subtitle && (
-      <Subtitle text={subtitle} fade="0" align="center" />
+      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
-    <Heading text={title} fade="0.2" align="center" size="2" tag="2" />
+    <Heading text={title} fade="0.2" size="2" tag="2" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" fade="0.4" align="center" isMarginBottom={true} />
+      <Text text={text} size="large" fade="0.4" isMarginBottom={true} class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
   </SectionHeader>
   <SplitContent>
-    <Text text={leftText} fade="0.4" size="default" align="left" />
-    <Text text={rightText} fade="0.6" size="default" align="left" />
+    <Text text={leftText} fade="0.4" size="default" />
+    <Text text={rightText} fade="0.6" size="default" />
   </SplitContent>
 </Section>

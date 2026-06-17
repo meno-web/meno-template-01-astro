@@ -28,11 +28,11 @@ const { subtitle, title, text, image, theme, class: className } = __props;
   <SplitContent>
     <Stack vertical="center" horizontal="left">
       {subtitle && (
-        <Subtitle text={subtitle} align="left" fade="0" />
+        <Subtitle text={subtitle} fade="0" />
       )}
-      <Heading text={title} align="left" size="2" tag="2" fade="0.2" />
+      <Heading text={title} size="2" tag="2" fade="0.2" />
       {text && (
-        <Text text={text} size="large" align="left" fade="0.4" />
+        <Text text={text} size="large" fade="0.4" />
       )}
     </Stack>
     <Image image={image} rounded="large" fade="0.4" />

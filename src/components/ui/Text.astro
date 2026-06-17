@@ -13,18 +13,12 @@ const __props = resolveProps(Astro, {
     options: ["default", "large", "small"]
   },
   text: { type: "rich-text", default: "Text" },
-  align: {
-    type: "select",
-    default: "left",
-    options: ["left", "center", "right", "inherit"]
-  },
   fade: { type: "string", default: "" }
 });
 const {
   variant,
   size,
   text,
-  align,
   fade,
   class: className,
 } = __props;
@@ -51,17 +45,6 @@ const __meno = { acceptsStyles: true };
           default: "var(--text)",
           light: "var(--text-100)",
           lighter: "var(--text-200)"
-        }
-      },
-      textAlign: {
-        _mapping: true,
-        prop: "align",
-        values: {
-          default: "left",
-          left: "left",
-          center: "center",
-          right: "right",
-          inherit: "inherit"
         }
       }
     },

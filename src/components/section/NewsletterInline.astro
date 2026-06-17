@@ -46,9 +46,9 @@ const {
         tablet: {},
         mobile: {}
       }, __props)}>
-      <Heading text={title} align="center" size="2" tag="2" fade="0" />
+      <Heading text={title} size="2" tag="2" fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
       {text && (
-        <Text text={text} size="large" align="center" isMarginBottom={true} fade="0.2" class={style({ base: { maxWidth: "460px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "460px" }, tablet: {}, mobile: {} }} />
+        <Text text={text} size="large" isMarginBottom={true} fade="0.2" class={style({ base: { maxWidth: "460px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "460px", textAlign: "center" }, tablet: {}, mobile: {} }} />
       )}
       <Spacer size="32" />
       <div class={style({ base: { width: "100%", maxWidth: "460px" }, tablet: {}, mobile: {} }, __props)} fade={0.4}>
@@ -60,7 +60,7 @@ const {
         </Form>
       </div>
       <Spacer size="24" />
-      <Text text={privacyText} size="small" variant="light" align="center" fade="0.6" />
+      <Text text={privacyText} size="small" variant="light" fade="0.6" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     </div>
   </Stack>
 </Section>

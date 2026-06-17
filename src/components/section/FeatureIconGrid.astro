@@ -71,11 +71,11 @@ const {
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
   <SectionHeader isCenter={true} class={style({ base: { maxWidth: "640px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "640px" }, tablet: {}, mobile: {} }}>
     {subtitle && (
-      <Subtitle text={subtitle} align="center" fade="0" />
+      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
-    <Heading text={title} align="center" size="2" tag="2" fade="0.2" />
+    <Heading text={title} size="2" tag="2" fade="0.2" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" align="center" variant="default" fade="0.4" class={style({ base: { maxWidth: "400px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "400px" }, tablet: {}, mobile: {} }} />
+      <Text text={text} size="large" variant="default" fade="0.4" class={style({ base: { maxWidth: "400px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "400px", textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
   </SectionHeader>
   <Grid columns={columns} fade="0.4">
@@ -107,8 +107,8 @@ const {
             tablet: {},
             mobile: {}
           }, __props, { label: "Icon Wrap" })}><Icon size={24} icon={item.icon} color="" /></div>
-        <Heading text={item.title} size="5" tag="3" align="center" />
-        <Text text={item.text} size="small" variant="light" align="center" />
+        <Heading text={item.title} size="5" tag="3" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+        <Text text={item.text} size="small" variant="light" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
       </div>
     ))}
   </Grid>

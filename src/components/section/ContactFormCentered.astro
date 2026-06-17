@@ -24,9 +24,9 @@ const { title, text, theme, buttonText, class: className } = __props;
 ---
 <Section theme={theme} maxWidth="640" spaceTop="default" class={style({}, __props, { root: true })}>
   <SectionHeader isCenter={true} class={style({ base: { maxWidth: "500px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "500px" }, tablet: {}, mobile: {} }}>
-    <Heading text={title} size="2" tag="2" fade="0" align="center" />
+    <Heading text={title} size="2" tag="2" fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" fade="0.2" align="center" />
+      <Text text={text} size="large" fade="0.2" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
   </SectionHeader>
   <Form action="/api/send-email" method="post" submitHandler="fetch" successMessage="Thank you for your submission" errorMessage="Something went wrong. Please try later.">

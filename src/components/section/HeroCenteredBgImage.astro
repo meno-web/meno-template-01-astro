@@ -38,9 +38,9 @@ const {
 ---
 <Section theme={theme} backgroundImage={image} class={style({}, __props, { root: true })}>
   <Stack horizontal="center">
-    <Heading text={title} tag="1" align="center" size="1" fade="0" />
+    <Heading text={title} tag="1" size="1" fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" align="center" variant="default" fade="0.2" class={style({ base: { maxWidth: "640px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "640px" }, tablet: {}, mobile: {} }} />
+      <Text text={text} size="large" variant="default" fade="0.2" class={style({ base: { maxWidth: "640px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "640px", textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
     {buttonText && (
       <ButtonList fade="0.4">

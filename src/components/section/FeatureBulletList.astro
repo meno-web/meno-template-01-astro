@@ -32,7 +32,7 @@ const { title, text, image, items, theme, class: className } = __props;
 <Section text="Key benefit — A short description of what makes this feature stand out" theme={theme} class={style({}, __props, { root: true })}>
   <SplitContent>
     <div class={style({ display: "flex", flexDirection: "column", justifyContent: "center" }, __props)}>
-      <Heading text={title} size="2" tag="2" align="left" fade="0" />
+      <Heading text={title} size="2" tag="2" fade="0" />
       {text && (
         <Text text={text} fade="0.2" />
       )}

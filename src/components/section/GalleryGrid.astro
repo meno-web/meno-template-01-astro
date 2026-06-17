@@ -59,13 +59,13 @@ const __props = resolveProps(Astro, {
 const { subtitle, title, text, items, theme, class: className } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={true} maxWidth="600px">
+  <SectionHeader isCenter={true} class={style({ base: { maxWidth: "600px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "600px" }, tablet: {}, mobile: {} }}>
     {subtitle && (
       <Subtitle text={subtitle} align="center" fade="0" />
     )}
-    <Heading text={title} maxWidth="" align="center" size="2" tag="2" fade="0.2" />
+    <Heading text={title} align="center" size="2" tag="2" fade="0.2" />
     {text && (
-      <Text text={text} size="large" align="center" maxWidth="" fade="0.4" />
+      <Text text={text} size="large" align="center" fade="0.4" />
     )}
   </SectionHeader>
   <Grid columns="3" gap="24" fade="0.4">

@@ -1,5 +1,5 @@
 ---
-import { inlineStyle, resolveProps, style } from 'meno-astro';
+import { resolveProps, style } from 'meno-astro';
 
 const __props = resolveProps(Astro, {
   text: { type: "rich-text", default: "Heading" },
@@ -9,7 +9,6 @@ const __props = resolveProps(Astro, {
     options: ["1", "2", "3", "4", "5", "6"]
   },
   variant: { type: "select", default: "default", options: ["default", "light"] },
-  maxWidth: { type: "string", default: "100%" },
   align: {
     type: "select",
     default: "left",
@@ -27,7 +26,6 @@ const {
   text,
   size,
   variant,
-  maxWidth,
   align,
   tag,
   fade,
@@ -70,7 +68,6 @@ const Tag_0 = `h${tag === "size" ? size : tag}`;
       },
       letterSpacing: "var(--h-ls)",
       lineHeight: "var(--h-lh)",
-      maxWidth: "{{maxWidth}}",
       color: {
         _mapping: true,
         prop: "variant",
@@ -90,7 +87,7 @@ const Tag_0 = `h${tag === "size" ? size : tag}`;
     },
     tablet: {},
     mobile: {}
-  }, __props, { root: true, label: "Text" })} style={inlineStyle({ "max-width": `${maxWidth}` }, __props)} fade={fade || undefined} isMb0={isMb0 || undefined}><Fragment set:html={text} /></Tag_0>
+  }, __props, { root: true, label: "Text" })} fade={fade || undefined} isMb0={isMb0 || undefined}><Fragment set:html={text} /></Tag_0>
 
 
 <style is:global>

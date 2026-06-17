@@ -30,9 +30,9 @@ const { subtitle, title, text, image, theme, class: className } = __props;
       {subtitle && (
         <Subtitle text={subtitle} align="left" fade="0" />
       )}
-      <Heading text={title} maxWidth="100%" align="left" size="2" tag="2" fade="0.2" />
+      <Heading text={title} align="left" size="2" tag="2" fade="0.2" />
       {text && (
-        <Text text={text} size="large" align="left" maxWidth="100%" fade="0.4" />
+        <Text text={text} size="large" align="left" fade="0.4" />
       )}
     </Stack>
     <Image image={image} rounded="large" fade="0.4" />

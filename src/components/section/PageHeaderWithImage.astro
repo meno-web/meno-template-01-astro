@@ -26,9 +26,9 @@ const { title, text, image, theme, class: className } = __props;
   <Stack vertical="top" horizontal="center">
     <div class={style({ base: { width: "100%", maxWidth: "900px" }, tablet: {}, mobile: {} }, __props)}><Image image={image} height="400px" border={false} rounded="large" objectFit="cover" fade="0" /></div>
     <Spacer size="64" />
-    <Heading text={title} maxWidth="480px" align="center" size="1" tag="1" variant="default" fade="0.2" />
+    <Heading text={title} align="center" size="1" tag="1" variant="default" fade="0.2" class={style({ base: { maxWidth: "480px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "480px" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" align="center" maxWidth="580px" isMarginBottom={true} fade="0.4" />
+      <Text text={text} size="large" align="center" isMarginBottom={true} fade="0.4" class={style({ base: { maxWidth: "580px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "580px" }, tablet: {}, mobile: {} }} />
     )}
   </Stack>
 </Section>

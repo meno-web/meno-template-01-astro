@@ -1,12 +1,13 @@
 ---
-import { inlineStyle, resolveProps, style } from 'meno-astro';
+import { resolveProps, style } from 'meno-astro';
 
 const __props = resolveProps(Astro, {
   isCenter: { type: "boolean", default: false },
-  maxWidth: { type: "string", default: "100%" },
   fade: { type: "string", default: "" }
 });
-const { isCenter, maxWidth, fade, class: className } = __props;
+const { isCenter, fade, class: className } = __props;
+
+const __meno = { acceptsStyles: true };
 ---
 <div class={style({
     base: {
@@ -18,7 +19,6 @@ const { isCenter, maxWidth, fade, class: className } = __props;
         values: { default: "flex-start", true: "center", false: "flex-start" }
       },
       marginBottom: "80px",
-      maxWidth: "{{maxWidth}}",
       textAlign: {
         _mapping: true,
         prop: "isCenter",
@@ -29,4 +29,4 @@ const { isCenter, maxWidth, fade, class: className } = __props;
     },
     tablet: {},
     mobile: {}
-  }, __props, { root: true })} style={inlineStyle({ "max-width": `${maxWidth}` }, __props)} fade={fade || undefined}><slot /></div>
+  }, __props, { root: true })} fade={fade || undefined}><slot /></div>

@@ -83,13 +83,13 @@ const {
 } = __props;
 ---
 <Section theme={theme} spaceTop="default" cropped={!cropped} class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={true} maxWidth="600px">
+  <SectionHeader isCenter={true} class={style({ base: { maxWidth: "600px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "600px" }, tablet: {}, mobile: {} }}>
     {subtitle && (
       <Subtitle text={subtitle} align="center" fade="0" />
     )}
-    <Heading text={title} maxWidth="" align="center" size="2" tag="2" fade="0.2" />
+    <Heading text={title} size="2" tag="2" fade="0.2" />
     {text && (
-      <Text text={text} size="large" align="center" maxWidth="360px" fade="0.4" />
+      <Text text={text} size="large" fade="0.4" class={style({ base: { maxWidth: "360px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "360px" }, tablet: {}, mobile: {} }} />
     )}
   </SectionHeader>
   <Slider gap={20} autoplay={autoplay} loop={loop} columns="3" cropped={cropped} fade="0.4">

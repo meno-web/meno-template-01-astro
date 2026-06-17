@@ -24,7 +24,7 @@ const { theme, class: className } = __props;
         mobile: { fontSize: "80px" }
       }, __props)} fade={0}>404</span>
     <Heading text="Page not found" size="2" tag="1" align="center" fade="0.2" />
-    <Text text="The page you're looking for doesn't exist or has been moved." align="center" maxWidth="320px" isMarginBottom={true} fade="0.4" />
+    <Text text="The page you're looking for doesn't exist or has been moved." align="center" isMarginBottom={true} fade="0.4" class={style({ base: { maxWidth: "320px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "320px" }, tablet: {}, mobile: {} }} />
     <Button text="Back to Home" variant="primary" isMarginTop={true} link={{ href: "/" }} fade="0.6" />
   </Stack>
 </Section>

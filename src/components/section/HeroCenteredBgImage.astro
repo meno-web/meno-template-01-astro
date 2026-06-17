@@ -40,7 +40,7 @@ const {
   <Stack horizontal="center">
     <Heading text={title} tag="1" align="center" size="1" fade="0" />
     {text && (
-      <Text text={text} size="large" align="center" maxWidth="640px" variant="default" fade="0.2" />
+      <Text text={text} size="large" align="center" variant="default" fade="0.2" class={style({ base: { maxWidth: "640px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "640px" }, tablet: {}, mobile: {} }} />
     )}
     {buttonText && (
       <ButtonList fade="0.4">

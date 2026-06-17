@@ -44,13 +44,13 @@ const {
 } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={true} maxWidth="600px">
+  <SectionHeader isCenter={true} class={style({ base: { maxWidth: "600px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "600px" }, tablet: {}, mobile: {} }}>
     {subtitle && (
       <Subtitle text={subtitle} fade="0" align="center" />
     )}
-    <Heading text={title} maxWidth="" fade="0.2" align="center" size="2" tag="2" />
+    <Heading text={title} fade="0.2" align="center" size="2" tag="2" />
     {text && (
-      <Text text={text} size="large" fade="0.4" align="center" maxWidth="" />
+      <Text text={text} size="large" fade="0.4" align="center" />
     )}
   </SectionHeader>
   <div class={style({ base: { overflowX: "auto" } }, __props)} fade={0.4}>

@@ -1,5 +1,5 @@
 ---
-import { inlineStyle, resolveProps, style } from 'meno-astro';
+import { resolveProps, style } from 'meno-astro';
 
 const __props = resolveProps(Astro, {
   variant: {
@@ -13,7 +13,6 @@ const __props = resolveProps(Astro, {
     options: ["default", "large", "small"]
   },
   text: { type: "rich-text", default: "Text" },
-  maxWidth: { type: "string", default: "100%" },
   align: {
     type: "select",
     default: "left",
@@ -25,11 +24,12 @@ const {
   variant,
   size,
   text,
-  maxWidth,
   align,
   fade,
   class: className,
 } = __props;
+
+const __meno = { acceptsStyles: true };
 ---
 <p class={style({
     base: {
@@ -53,7 +53,6 @@ const {
           lighter: "var(--text-200)"
         }
       },
-      maxWidth: "{{maxWidth}}",
       textAlign: {
         _mapping: true,
         prop: "align",
@@ -68,4 +67,4 @@ const {
     },
     tablet: {},
     mobile: {}
-  }, __props, { root: true })} style={inlineStyle({ "max-width": `${maxWidth}` }, __props)} fade={fade || undefined}><Fragment set:html={text} /></p>
+  }, __props, { root: true })} fade={fade || undefined}><Fragment set:html={text} /></p>

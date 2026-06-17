@@ -46,9 +46,9 @@ const {
         tablet: {},
         mobile: {}
       }, __props)}>
-      <Heading text={title} maxWidth="" align="center" size="2" tag="2" fade="0" />
+      <Heading text={title} align="center" size="2" tag="2" fade="0" />
       {text && (
-        <Text text={text} size="large" align="center" maxWidth="460px" isMarginBottom={true} fade="0.2" />
+        <Text text={text} size="large" align="center" isMarginBottom={true} fade="0.2" class={style({ base: { maxWidth: "460px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "460px" }, tablet: {}, mobile: {} }} />
       )}
       <Spacer size="32" />
       <div class={style({ base: { width: "100%", maxWidth: "460px" }, tablet: {}, mobile: {} }, __props)} fade={0.4}>

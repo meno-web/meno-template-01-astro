@@ -69,13 +69,13 @@ const {
 } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={true} maxWidth="640px">
+  <SectionHeader isCenter={true} class={style({ base: { maxWidth: "640px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "640px" }, tablet: {}, mobile: {} }}>
     {subtitle && (
       <Subtitle text={subtitle} align="center" fade="0" />
     )}
     <Heading text={title} align="center" size="2" tag="2" fade="0.2" />
     {text && (
-      <Text text={text} size="large" align="center" maxWidth="400px" variant="default" fade="0.4" />
+      <Text text={text} size="large" align="center" variant="default" fade="0.4" class={style({ base: { maxWidth: "400px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "400px" }, tablet: {}, mobile: {} }} />
     )}
   </SectionHeader>
   <Grid columns={columns} fade="0.4">

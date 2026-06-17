@@ -53,7 +53,7 @@ const {
 } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={isCenter} maxWidth="">
+  <SectionHeader isCenter={isCenter}>
     {subtitle && (
       <Subtitle text={subtitle} fade="0" align={{
           _mapping: true,
@@ -61,17 +61,17 @@ const {
           values: { default: "left", true: "center", false: "left" }
         }} />
     )}
-    <Heading text={title} maxWidth="640px" fade="0.2" align={{
+    <Heading text={title} fade="0.2" align={{
         _mapping: true,
         prop: "isCenter",
         values: { default: "left", true: "center", false: "left" }
-      }} size="2" tag="2" />
+      }} size="2" tag="2" class={style({ base: { maxWidth: "640px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "640px" }, tablet: {}, mobile: {} }} />
     {text && (
       <Text text={text} size="large" fade="0.4" align={{
           _mapping: true,
           prop: "isCenter",
           values: { default: "left", true: "center", false: "left" }
-        }} maxWidth="580px" />
+        }} class={style({ base: { maxWidth: "580px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "580px" }, tablet: {}, mobile: {} }} />
     )}
   </SectionHeader>
   <Grid columns="1" gap="24" fade="0.4">

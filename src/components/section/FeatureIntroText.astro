@@ -22,9 +22,9 @@ const { subtitle, title, text, theme, class: className } = __props;
     {subtitle && (
       <Subtitle text={subtitle} align="center" fade="0" />
     )}
-    <Heading text={title} maxWidth="640px" align="center" size="2" tag="2" fade="0.2" />
+    <Heading text={title} align="center" size="2" tag="2" fade="0.2" class={style({ base: { maxWidth: "640px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "640px" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" align="center" maxWidth="580px" fade="0.4" />
+      <Text text={text} size="large" align="center" fade="0.4" class={style({ base: { maxWidth: "580px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "580px" }, tablet: {}, mobile: {} }} />
     )}
   </Stack>
 </Section>

@@ -23,7 +23,7 @@ const { quote, avatar, name, role, theme, class: className } = __props;
 ---
 <Section theme={theme} spaceTop="default" maxWidth="900" class={style({}, __props, { root: true })}>
   <Stack vertical="top" horizontal="center">
-    <blockquote class={style({ base: { margin: "0", padding: "0" } }, __props)}><Heading text={quote} maxWidth="100%" align="center" size="2" tag="3" fade="0" /></blockquote>
+    <blockquote class={style({ base: { margin: "0", padding: "0" } }, __props)}><Heading text={quote} align="center" size="2" tag="3" fade="0" /></blockquote>
     <Spacer size="32" />
     <div class={style({ base: { display: "flex", alignItems: "center", gap: "16px" } }, __props)} fade={0.2}>
       <img class={style({

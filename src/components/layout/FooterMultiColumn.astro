@@ -89,7 +89,7 @@ const {
           tablet: {},
           mobile: {}
         }, __props)}>{brandName}</div>
-      <Text text={tagline} maxWidth="320px" />
+      <Text text={tagline} class={style({ base: { maxWidth: "320px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "320px" }, tablet: {}, mobile: {} }} />
     </div>
     <div>
       <Subtitle text={column1Title} variant="default" />

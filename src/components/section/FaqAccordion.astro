@@ -47,7 +47,7 @@ const __props = resolveProps(Astro, {
 const { subtitle, title, text, theme, items, class: className } = __props;
 ---
 <Section spaceTop="default" spaceBottom="default" theme={theme} maxWidth="1280" class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={false} maxWidth="">
+  <SectionHeader isCenter={false}>
     {subtitle && (
       <Subtitle text={subtitle} fade="0" align="left" />
     )}

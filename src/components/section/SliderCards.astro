@@ -3,7 +3,6 @@ import { list, resolveProps, style } from 'meno-astro';
 import Heading from '../ui/Heading.astro';
 import Image from '../ui/Image.astro';
 import Section from '../ui/Section.astro';
-import SectionHeader from '../ui/SectionHeader.astro';
 import Slider from '../block/Slider.astro';
 import Subtitle from '../ui/Subtitle.astro';
 import Text from '../ui/Text.astro';
@@ -83,15 +82,22 @@ const {
 } = __props;
 ---
 <Section theme={theme} spaceTop="default" cropped={!cropped} class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={true} maxWidth="600px">
+  <div class={style({
+      base: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        marginBottom: "var(--sh-mb)"
+      },
+      tablet: {},
+      mobile: {}
+    }, __props)}>
     {subtitle && (
-      <Subtitle text={subtitle} align="center" fade="0" />
+      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
-    <Heading text={title} maxWidth="" align="center" size="2" tag="2" fade="0.2" />
-    {text && (
-      <Text text={text} size="large" align="center" maxWidth="360px" fade="0.4" />
-    )}
-  </SectionHeader>
+    <Heading text={title} size="2" tag="2" fade="0.2" class={style({ base: { textAlign: "center", maxWidth: "600px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center", maxWidth: "600px" }, tablet: {}, mobile: {} }} />
+    <Text text={text} size="large" fade="0.4" class={style({ base: { maxWidth: "440px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "440px", textAlign: "center" }, tablet: {}, mobile: {} }} />
+  </div>
   <Slider gap={20} autoplay={autoplay} loop={loop} columns="3" cropped={cropped} fade="0.4">
     {list(items).map((item, itemIndex) => (
       <div class={style({
@@ -106,7 +112,7 @@ const {
         <Image image={item.image} aspectRatio="16/9" height="auto" width="100%" class={style({ base: { width: "100%", height: "auto" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { width: "100%", height: "auto" }, tablet: {}, mobile: {} }} />
         <div class={style({ base: { padding: "24px" } }, __props, { label: "Card Body" })}>
           <Heading text={item.title} size="4" />
-          <Text size="default" variant="default" text={item.text} />
+          <Text size="default" text={item.text} />
         </div>
       </div>
     ))}

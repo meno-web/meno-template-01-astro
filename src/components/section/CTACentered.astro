@@ -15,7 +15,7 @@ const __props = resolveProps(Astro, {
   },
   buttonText: { type: "string", default: "Primary action" },
   buttonLink: { type: "link", default: "#" },
-  secondaryButtonText: { type: "string", default: "Secondary action" },
+  secondaryButtonText: { type: "string", default: "" },
   secondaryButtonLink: { type: "link", default: "#" },
   theme: { type: "select", default: "primary", enumName: "theme" }
 });
@@ -32,9 +32,9 @@ const {
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
   <Stack vertical="top" horizontal="center">
-    <Heading text={title} maxWidth="440px" align="center" size="2" tag="2" fade="0" />
+    <Heading text={title} size="2" tag="2" fade="0" class={style({ base: { maxWidth: "440px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "440px", textAlign: "center" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" align="center" maxWidth="450px" isMarginBottom={true} fade="0.2" />
+      <Text text={text} size="large" isMarginBottom={true} fade="0.2" class={style({ base: { maxWidth: "450px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "450px", textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
     {buttonText && (
       <ButtonList justify="center" fade="0.4">

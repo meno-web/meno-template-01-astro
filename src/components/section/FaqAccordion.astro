@@ -4,7 +4,6 @@ import FaqItem from '../block/FaqItem.astro';
 import FaqList from '../block/FaqList.astro';
 import Heading from '../ui/Heading.astro';
 import Section from '../ui/Section.astro';
-import SectionHeader from '../ui/SectionHeader.astro';
 import Subtitle from '../ui/Subtitle.astro';
 import Text from '../ui/Text.astro';
 
@@ -47,15 +46,15 @@ const __props = resolveProps(Astro, {
 const { subtitle, title, text, theme, items, class: className } = __props;
 ---
 <Section spaceTop="default" spaceBottom="default" theme={theme} maxWidth="1280" class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={false} maxWidth="">
+  <div class={style({ base: { display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: "var(--sh-mb)", marginRight: "auto", marginLeft: "auto" }, tablet: {}, mobile: {} }, __props)}>
     {subtitle && (
-      <Subtitle text={subtitle} fade="0" align="left" />
+      <Subtitle text={subtitle} fade="0" />
     )}
-    <Heading text={title} size="2" tag="2" fade="0.2" align="left" />
+    <Heading text={title} size="2" tag="2" fade="0.2" />
     {text && (
-      <Text text={text} size="large" fade="0.4" align="left" />
+      <Text text={text} size="large" fade="0.4" />
     )}
-  </SectionHeader>
+  </div>
   <FaqList>
     {list(items).map((item, itemIndex) => (
       <FaqItem question={item.title} answer={item.text} isOpen={item.isOpen} fade={0.4+itemIndex*0.2} />

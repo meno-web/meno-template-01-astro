@@ -177,6 +177,13 @@
       "group": "padding"
     },
     {
+      "name": "Section Header",
+      "cssVar": "--sh-mb",
+      "value": "80px",
+      "type": "margin",
+      "group": "margin"
+    },
+    {
       "name": "Button",
       "cssVar": "--b-g",
       "value": "6px",

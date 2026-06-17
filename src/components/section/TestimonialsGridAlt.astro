@@ -3,7 +3,6 @@ import { list, resolveProps, style } from 'meno-astro';
 import Grid from '../ui/Grid.astro';
 import Heading from '../ui/Heading.astro';
 import Section from '../ui/Section.astro';
-import SectionHeader from '../ui/SectionHeader.astro';
 import Subtitle from '../ui/Subtitle.astro';
 import Testimonial from '../block/Testimonial.astro';
 import Text from '../ui/Text.astro';
@@ -70,15 +69,15 @@ const __props = resolveProps(Astro, {
 const { subtitle, title, text, items, theme, class: className } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={true} maxWidth="450px">
+  <div class={style({ base: { display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "var(--sh-mb)", marginRight: "auto", marginLeft: "auto", maxWidth: "450px" }, tablet: {}, mobile: {} }, __props)}>
     {subtitle && (
-      <Subtitle text={subtitle} align="center" fade="0" />
+      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
-    <Heading text={title} maxWidth="" align="center" size="2" tag="2" fade="0.2" />
+    <Heading text={title} size="2" tag="2" fade="0.2" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" align="center" maxWidth="" isMarginBottom={true} fade="0.4" />
+      <Text text={text} size="large" isMarginBottom={true} fade="0.4" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
-  </SectionHeader>
+  </div>
   <Grid columns="2" gap="24" fade="0.4">
     {list(items).map((item, itemIndex) => (
       <Testimonial quote={item.text} avatar={item.image} name={item.title} role={item.label} fade={0.4+itemIndex*0.2} />

@@ -4,7 +4,6 @@ import Grid from '../ui/Grid.astro';
 import Heading from '../ui/Heading.astro';
 import Image from '../ui/Image.astro';
 import Section from '../ui/Section.astro';
-import SectionHeader from '../ui/SectionHeader.astro';
 import Subtitle from '../ui/Subtitle.astro';
 import Text from '../ui/Text.astro';
 
@@ -70,15 +69,15 @@ const __props = resolveProps(Astro, {
 const { subtitle, title, text, items, theme, class: className } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={true} maxWidth="600px">
+  <div class={style({ base: { display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "var(--sh-mb)", marginRight: "auto", marginLeft: "auto", maxWidth: "600px" }, tablet: {}, mobile: {} }, __props)}>
     {subtitle && (
-      <Subtitle text={subtitle} align="center" fade="0" />
+      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
-    <Heading text={title} maxWidth="" align="center" size="2" tag="2" fade="0.2" />
+    <Heading text={title} size="2" tag="2" fade="0.2" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" align="center" maxWidth="" fade="0.4" />
+      <Text text={text} size="large" fade="0.4" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
-  </SectionHeader>
+  </div>
   <Grid columns="4" gap="24" fade="0.4">
     {list(items).map((item, itemIndex) => (
       <div class={style({
@@ -107,8 +106,8 @@ const { subtitle, title, text, items, theme, class: className } = __props;
           ]
         })}>
         <div class={style({ base: { marginBottom: "16px", display: "inline-block" } }, __props)}><Image image={item.icon} alt={item.title} objectFit="contain" width="48px" height="48px" class={style({ base: { height: "32px" } }, __props, { instance: true })} __menoStyle={{ base: { height: "32px" } }} /></div>
-        <Heading text={item.title} size="6" tag="3" align="center" />
-        <Text text={item.text} size="small" variant="light" align="center" />
+        <Heading text={item.title} size="6" tag="3" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+        <Text text={item.text} size="small" class={style({ base: { textAlign: "center", color: "var(--text-100)" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center", color: "var(--text-100)" }, tablet: {}, mobile: {} }} />
       </div>
     ))}
   </Grid>

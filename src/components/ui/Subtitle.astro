@@ -3,10 +3,11 @@ import { resolveProps, style } from 'meno-astro';
 
 const __props = resolveProps(Astro, {
   text: { type: "string", default: "SUBTITLE" },
-  variant: { type: "select", default: "default", options: ["default", "light"] },
   fade: { type: "string", default: "" }
 });
-const { text, variant, fade, class: className } = __props;
+const { text, fade, class: className } = __props;
+
+const __meno = { acceptsStyles: true };
 ---
 <p class={style({
     base: {
@@ -15,11 +16,7 @@ const { text, variant, fade, class: className } = __props;
       marginBottom: "16px",
       letterSpacing: "-0.015em",
       lineHeight: "115%",
-      color: {
-        _mapping: true,
-        prop: "variant",
-        values: { default: "var(--text)", light: "var(--text-100)" }
-      },
+      color: "var(--text)",
       textDecoration: "none",
       textTransform: "uppercase"
     },

@@ -4,7 +4,6 @@ import Card from '../ui/Card.astro';
 import Grid from '../ui/Grid.astro';
 import Heading from '../ui/Heading.astro';
 import Section from '../ui/Section.astro';
-import SectionHeader from '../ui/SectionHeader.astro';
 import StatNumber from '../ui/StatNumber.astro';
 import Subtitle from '../ui/Subtitle.astro';
 import Text from '../ui/Text.astro';
@@ -46,15 +45,15 @@ const __props = resolveProps(Astro, {
 const { subtitle, title, text, theme, items, class: className } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={true} maxWidth="600px">
+  <div class={style({ base: { display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "var(--sh-mb)", marginRight: "auto", marginLeft: "auto", maxWidth: "600px" }, tablet: {}, mobile: {} }, __props)}>
     {subtitle && (
-      <Subtitle text={subtitle} align="center" fade="0" />
+      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
-    <Heading text={title} size="2" tag="2" align="center" fade="0.2" />
+    <Heading text={title} size="2" tag="2" fade="0.2" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" align="center" fade="0.4" />
+      <Text text={text} size="large" fade="0.4" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
-  </SectionHeader>
+  </div>
   <Grid columns="3" gap="24" fade="0.4">
     {list(items).map((item, itemIndex) => (
       <Card variant="light">

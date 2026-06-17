@@ -6,7 +6,6 @@ import Heading from '../ui/Heading.astro';
 import Input from '../form/Input.astro';
 import Label from '../form/Label.astro';
 import Section from '../ui/Section.astro';
-import SectionHeader from '../ui/SectionHeader.astro';
 import Submit from '../form/Submit.astro';
 import Text from '../ui/Text.astro';
 import Textarea from '../form/Textarea.astro';
@@ -23,12 +22,12 @@ const __props = resolveProps(Astro, {
 const { title, text, theme, buttonText, class: className } = __props;
 ---
 <Section theme={theme} maxWidth="640" spaceTop="default" class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={true} maxWidth="500px">
-    <Heading text={title} size="2" tag="2" fade="0" align="center" />
+  <div class={style({ base: { display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "var(--sh-mb)", marginRight: "auto", marginLeft: "auto", maxWidth: "500px" }, tablet: {}, mobile: {} }, __props)}>
+    <Heading text={title} size="2" tag="2" fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" fade="0.2" align="center" />
+      <Text text={text} size="large" fade="0.2" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
-  </SectionHeader>
+  </div>
   <Form action="/api/send-email" method="post" submitHandler="fetch" successMessage="Thank you for your submission" errorMessage="Something went wrong. Please try later.">
     <FormField>
       <Label text="Name" htmlFor="name" />

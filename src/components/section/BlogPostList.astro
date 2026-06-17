@@ -5,7 +5,6 @@ import { Link } from 'meno-astro/components';
 import Heading from '../ui/Heading.astro';
 import Image from '../ui/Image.astro';
 import Section from '../ui/Section.astro';
-import SectionHeader from '../ui/SectionHeader.astro';
 import Spacer from '../ui/Spacer.astro';
 import Text from '../ui/Text.astro';
 
@@ -17,10 +16,19 @@ const { theme, class: className } = __props;
 const postsList = await getCollectionList("posts", { sort: { field: "publishedAt", direction: "desc" } }, Astro, getCollection);
 ---
 <Section theme={theme} class={style({}, __props, { root: true })}>
-  <SectionHeader>
+  <div class={style({
+      base: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        marginBottom: "var(--sh-mb)"
+      },
+      tablet: {},
+      mobile: {}
+    }, __props)}>
     <Heading text="Blog" size="1" tag="1" fade="0" />
     <Text text="Latest articles and insights from our team." fade="0.2" />
-  </SectionHeader>
+  </div>
   {postsList.map((post, postIndex) => (
     <Link href={i18n(post._url)} class={style({
         base: {
@@ -43,10 +51,10 @@ const postsList = await getCollectionList("posts", { sort: { field: "publishedAt
       })} fade={0.4+postIndex*0.2 || undefined}>
       <Image image={i18n(post.featuredImage)} alt={i18n(post.title)} objectFit="cover" height="100%" border={true} rounded="medium" class={style({ base: { width: "100%" } }, __props, { instance: true })} __menoStyle={{ base: { width: "100%" } }} />
       <div class={style({ base: { display: "flex", flexDirection: "column" }, tablet: {}, mobile: {} }, __props)}>
-        <Text text={i18n(post.publishedAt)} size="small" variant="light" />
+        <Text text={i18n(post.publishedAt)} size="small" class={style({ base: { color: "var(--text-100)" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { color: "var(--text-100)" }, tablet: {}, mobile: {} }} />
         <Spacer size="8" />
         <Heading text={i18n(post.title)} tag="2" size="4" />
-        <Text text={i18n(post.excerpt)} variant="light" size="default" />
+        <Text text={i18n(post.excerpt)} size="default" class={style({ base: { color: "var(--text-100)" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { color: "var(--text-100)" }, tablet: {}, mobile: {} }} />
       </div>
     </Link>
   ))}

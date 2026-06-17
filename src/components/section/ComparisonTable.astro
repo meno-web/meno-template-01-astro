@@ -2,7 +2,6 @@
 import { list, resolveProps, style } from 'meno-astro';
 import Heading from '../ui/Heading.astro';
 import Section from '../ui/Section.astro';
-import SectionHeader from '../ui/SectionHeader.astro';
 import Subtitle from '../ui/Subtitle.astro';
 import Text from '../ui/Text.astro';
 
@@ -44,15 +43,15 @@ const {
 } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
-  <SectionHeader isCenter={true} maxWidth="600px">
+  <div class={style({ base: { display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "var(--sh-mb)", marginRight: "auto", marginLeft: "auto", maxWidth: "600px" }, tablet: {}, mobile: {} }, __props)}>
     {subtitle && (
-      <Subtitle text={subtitle} fade="0" align="center" />
+      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
-    <Heading text={title} maxWidth="" fade="0.2" align="center" size="2" tag="2" />
+    <Heading text={title} fade="0.2" size="2" tag="2" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     {text && (
-      <Text text={text} size="large" fade="0.4" align="center" maxWidth="" />
+      <Text text={text} size="large" fade="0.4" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
     )}
-  </SectionHeader>
+  </div>
   <div class={style({ base: { overflowX: "auto" } }, __props)} fade={0.4}>
     <table class={style({ base: { width: "100%", borderCollapse: "collapse", minWidth: "500px" } }, __props)}>
       <thead>

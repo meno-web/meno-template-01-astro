@@ -80,6 +80,7 @@
   --b-fs: 16px;
   --s-p: 92px;
   --se-p: 56px;
+  --sh-mb: 80px;
   --b-g: 6px;
   --b-p: 12px 18px 12px 22px;
   --b-fw: 450;
@@ -99,6 +100,7 @@
     --tl-fs: 21px;
     --s-p: 73px;
     --se-p: 46px;
+    --sh-mb: 61px;
     --b-p: 12px 18px 12px 21px;
   }
 }
@@ -116,6 +118,7 @@
     --tl-fs: 20px;
     --s-p: 54px;
     --se-p: 36px;
+    --sh-mb: 45px;
     --b-p: 12px 17px 12px 19px;
   }
 }

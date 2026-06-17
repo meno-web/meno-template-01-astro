@@ -88,9 +88,7 @@ const {
       <Subtitle text={subtitle} align="center" fade="0" />
     )}
     <Heading text={title} size="2" tag="2" fade="0.2" align="center" />
-    {text && (
-      <Text text={text} size="large" fade="0.4" align="center" class={style({ base: { maxWidth: "360px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "360px" }, tablet: {}, mobile: {} }} />
-    )}
+    <Text text={text} size="large" fade="0.4" align="center" class={style({ base: { maxWidth: "440px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "440px", textAlign: "center" }, tablet: {}, mobile: {} }} />
   </SectionHeader>
   <Slider gap={20} autoplay={autoplay} loop={loop} columns="3" cropped={cropped} fade="0.4">
     {list(items).map((item, itemIndex) => (

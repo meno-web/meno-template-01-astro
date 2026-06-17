@@ -10,7 +10,7 @@
 
 :root {
   --text: #030712;
-  --text-100: #1f2937;
+  --text-100: #1f2834;
   --bg: #f9fafb;
   --border: #d1d5db;
   --border-100: #e5e7eb;
@@ -22,7 +22,7 @@
 
 [theme="light"] {
   --text: #030712;
-  --text-100: #1f2937;
+  --text-100: #1f2834;
   --bg: #f9fafb;
   --border: #d1d5db;
   --border-100: #e5e7eb;
@@ -52,7 +52,7 @@
   --border-100: #6b7280;
   --h-span: #9ca3af;
   --bg-100: #111827;
-  --bg-200: #1f2937;
+  --bg-200: #1f2834;
   --text-200: #d1d5db;
 }
 
@@ -104,14 +104,16 @@
 }
 @media (max-width: 540px) {
   :root {
-    --h-fs: 61px;
-    --h2-fs: 48px;
-    --h3-fs: 30px;
-    --h4-fs: 30px;
-    --h5-fs: 21px;
+    --h-fs: 52px;
+    --h2-fs: 41px;
+    --h3-fs: 27px;
+    --h4-fs: 27px;
+    --h5-fs: 20px;
+    --h6-fs: 17px;
     --h-s: 18px;
     --h2-s: 18px;
-    --tl-fs: 21px;
+    --t-fs: 17px;
+    --tl-fs: 20px;
     --s-p: 54px;
     --se-p: 36px;
     --b-p: 12px 17px 12px 19px;

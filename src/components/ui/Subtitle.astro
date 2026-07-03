@@ -1,5 +1,5 @@
 ---
-import { resolveProps, style } from 'meno-astro';
+import { cx, resolveProps } from 'meno-astro';
 
 const __props = resolveProps(Astro, {
   text: { type: "string", default: "SUBTITLE" },
@@ -9,17 +9,4 @@ const { text, fade, class: className } = __props;
 
 const __meno = { acceptsStyles: true };
 ---
-<p class={style({
-    base: {
-      fontSize: "14px",
-      fontWeight: "600",
-      marginBottom: "16px",
-      letterSpacing: "-0.015em",
-      lineHeight: "115%",
-      color: "var(--text)",
-      textDecoration: "none",
-      textTransform: "uppercase"
-    },
-    tablet: {},
-    mobile: {}
-  }, __props, { root: true })} fade={fade || undefined}>{text}</p>
+<p class={cx("mb-4 text-text text-[14px] font-[600] no-underline uppercase leading-[115%] tracking-[-0.015em]", className)} fade={fade || undefined}>{text}</p>

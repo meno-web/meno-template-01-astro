@@ -1,5 +1,6 @@
 ---
-import { resolveProps, style } from 'meno-astro';
+import { cx, resolveProps, richTextWithComponents, variants } from 'meno-astro';
+import { cmsComponents } from '../../cmsComponents';
 
 const __props = resolveProps(Astro, {
   size: {
@@ -10,30 +11,14 @@ const __props = resolveProps(Astro, {
   text: { type: "rich-text", default: "Text" },
   fade: { type: "string", default: "" }
 });
-const {
-  size,
-  text,
-  fade,
-  class: className,
-} = __props;
+const { size, text, fade, class: className } = __props;
 
 const __meno = { acceptsStyles: true };
 ---
-<p class={style({
-    base: {
-      fontSize: {
-        _mapping: true,
-        prop: "size",
-        values: {
-          default: "var(--t-fs)",
-          large: "var(--tl-fs)",
-          small: "var(--ts-fs)"
-        }
-      },
-      lineHeight: "150%",
-      fontWeight: "var(--t-fw)",
-      color: "var(--text)"
-    },
-    tablet: {},
-    mobile: {}
-  }, __props, { root: true })} fade={fade || undefined}><Fragment set:html={text} /></p>
+<p class={cx(variants(__props, {
+    size: {
+      default: "text-(length:--t-fs)",
+      large: "text-(length:--tl-fs)",
+      small: "text-(length:--ts-fs)"
+    }
+  }), "text-text font-(number:--t-fw) leading-[150%]", className)} fade={fade || undefined}><Fragment set:html={richTextWithComponents(text, cmsComponents)} /></p>

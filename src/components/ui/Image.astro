@@ -1,5 +1,6 @@
 ---
-import { inlineStyle, resolveProps, style } from 'meno-astro';
+import { resolveProps, style } from 'meno-astro';
+import { MenoImage } from 'meno-astro/components';
 
 const __props = resolveProps(Astro, {
   alt: { type: "string", default: "" },
@@ -37,15 +38,4 @@ const {
 
 const __meno = { acceptsStyles: true };
 ---
-<img class={style({
-    base: {
-      display: "block",
-      objectFit: "{{objectFit}}",
-      borderColor: "var(--border)",
-      aspectRatio: "{{aspectRatio}}",
-      width: "100%",
-      height: "100%"
-    },
-    tablet: {},
-    mobile: {}
-  }, __props, { root: true })} style={inlineStyle({ "object-fit": `${objectFit}`, "aspect-ratio": `${aspectRatio}` }, __props)} src={image || undefined} alt={alt || undefined} loading={loading || undefined} fetchpriority={fetchpriority || undefined} sizes={sizes || undefined} fade={fade || undefined} />
+<MenoImage class={style({ base: { objectFit: "{{objectFit}}", aspectRatio: "{{aspectRatio}}" } }, __props) + " block w-full h-full border-border"} style={`--m-base-object-fit: ${objectFit}; --m-base-aspect-ratio: ${aspectRatio}`} src={image || undefined} alt={alt || undefined} loading={loading || undefined} fetchpriority={fetchpriority || undefined} sizes={sizes || undefined} fade={fade || undefined} />

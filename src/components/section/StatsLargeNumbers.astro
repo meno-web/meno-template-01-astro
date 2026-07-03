@@ -1,5 +1,5 @@
 ---
-import { list, resolveProps, style } from 'meno-astro';
+import { cx, list, resolveProps, style, variants } from 'meno-astro';
 import Grid from '../ui/Grid.astro';
 import Heading from '../ui/Heading.astro';
 import Section from '../ui/Section.astro';
@@ -52,32 +52,61 @@ const {
 } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
-  <div class={style({ base: { display: "flex", flexDirection: "column", alignItems: { _mapping: true, prop: "isCenter", values: { default: "flex-start", true: "center", false: "flex-start" } }, marginBottom: "var(--sh-mb)", marginRight: "auto", marginLeft: "auto" }, tablet: {}, mobile: {} }, __props)}>
+  <div class={variants(__props, {
+      isCenter: {
+        default: "items-start",
+        true: "items-center",
+        false: "items-start"
+      }
+    }) + " mr-auto mb-(--sh-mb) ml-auto flex flex-col"}>
     {subtitle && (
-      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: { _mapping: true, prop: "isCenter", values: { default: "left", true: "center", false: "left" } } }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: { _mapping: true, prop: "isCenter", values: { default: "left", true: "center", false: "left" } } }, tablet: {}, mobile: {} }} />
+      <Subtitle text={subtitle} fade="0" class={cx(style({ base: {}, tablet: {}, mobile: {} }, __props, { instance: true }), variants(__props, {
+          isCenter: { default: "text-left", true: "text-center", false: "text-left" }
+        }))} __menoStyle={{
+          base: {
+            textAlign: {
+              _mapping: true,
+              prop: "isCenter",
+              values: { default: "left", true: "center", false: "left" }
+            }
+          },
+          tablet: {},
+          mobile: {}
+        }} />
     )}
-    <Heading text={title} fade="0.2" size="2" tag="2" class={style({ base: { maxWidth: "640px", textAlign: { _mapping: true, prop: "isCenter", values: { default: "left", true: "center", false: "left" } } }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "640px", textAlign: { _mapping: true, prop: "isCenter", values: { default: "left", true: "center", false: "left" } } }, tablet: {}, mobile: {} }} />
+    <Heading text={title} fade="0.2" size="2" tag="2" class={cx(style({ base: {} }, __props, { instance: true }), variants(__props, {
+        isCenter: { default: "text-left", true: "text-center", false: "text-left" }
+      })) + " max-w-[640px]"} __menoStyle={{
+        base: {
+          textAlign: {
+            _mapping: true,
+            prop: "isCenter",
+            values: { default: "left", true: "center", false: "left" }
+          }
+        }
+      }} />
     {text && (
-      <Text text={text} size="large" fade="0.4" class={style({ base: { maxWidth: "580px", textAlign: { _mapping: true, prop: "isCenter", values: { default: "left", true: "center", false: "left" } } }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "580px", textAlign: { _mapping: true, prop: "isCenter", values: { default: "left", true: "center", false: "left" } } }, tablet: {}, mobile: {} }} />
+      <Text text={text} size="large" fade="0.4" class={cx(style({ base: {} }, __props, { instance: true }), variants(__props, {
+          isCenter: { default: "text-left", true: "text-center", false: "text-left" }
+        })) + " max-w-[580px]"} __menoStyle={{
+          base: {
+            textAlign: {
+              _mapping: true,
+              prop: "isCenter",
+              values: { default: "left", true: "center", false: "left" }
+            }
+          }
+        }} />
     )}
   </div>
   <Grid columns="1" gap="24" fade="0.4">
     {list(items).map((item, itemIndex) => (
-      <div class={style({
-          base: {
-            display: "flex",
-            alignItems: "center",
-            gap: "32px",
-            padding: "32px 0",
-            borderBottom: "1px solid var(--border)"
-          },
-          mobile: { flexDirection: "column", alignItems: "flex-start", gap: "16px" }
-        }, __props, { label: "Stat Row" })}>
-        <div class={style({ base: { minWidth: "180px" }, mobile: { minWidth: "auto" } }, __props, { label: "Value Wrap" })}><Heading text={item.value} size="2" tag="3" color="primary" isMb0={true} /></div>
-        <div class={style({ base: { display: "flex", flexDirection: "column", gap: "8px" } }, __props, { label: "Content" })}>
+      <div class={style({}, __props, { label: "Stat Row" }) + " p-[32px_0] flex items-center gap-8 border-b-[1px_solid_var(--border)] max-sm:flex-col max-sm:items-start max-sm:gap-4"}>
+        <div class={style({}, __props, { label: "Value Wrap" }) + " min-w-[180px] max-sm:min-w-auto"}><Heading text={item.value} size="2" tag="3" color="primary" isMb0={true} /></div>
+        <div class={style({}, __props, { label: "Content" }) + " flex flex-col gap-2"}>
           <Heading text={item.label} size="4" tag="4" />
           {item.description && (
-            <Text text={item.description} color="secondary" class={style({ base: { maxWidth: "500px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "500px" }, tablet: {}, mobile: {} }} />
+            <Text text={item.description} color="secondary" class="max-w-[500px]" />
           )}
         </div>
       </div>

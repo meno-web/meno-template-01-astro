@@ -20,11 +20,11 @@ const { subtitle, title, text, theme, class: className } = __props;
 <Section theme={theme} spaceTop="default" maxWidth="900" class={style({}, __props, { root: true })}>
   <Stack vertical="top" horizontal="center">
     {subtitle && (
-      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Subtitle text={subtitle} fade="0" class="text-center" />
     )}
-    <Heading text={title} size="2" tag="2" fade="0.2" class={style({ base: { maxWidth: "640px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "640px", textAlign: "center" }, tablet: {}, mobile: {} }} />
+    <Heading text={title} size="2" tag="2" fade="0.2" class="max-w-[640px] text-center" />
     {text && (
-      <Text text={text} size="large" fade="0.4" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Text text={text} size="large" fade="0.4" class="text-center" />
     )}
   </Stack>
 </Section>

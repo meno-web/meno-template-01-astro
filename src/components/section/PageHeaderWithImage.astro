@@ -24,11 +24,11 @@ const { title, text, image, theme, class: className } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
   <Stack vertical="top" horizontal="center">
-    <div class={style({ base: { width: "100%", maxWidth: "900px" }, tablet: {}, mobile: {} }, __props)}><Image image={image} height="400px" border={false} rounded="large" objectFit="cover" fade="0" /></div>
+    <div class="w-full max-w-[900px]"><Image image={image} height="400px" border={false} rounded="large" objectFit="cover" fade="0" /></div>
     <Spacer size="64" />
-    <Heading text={title} size="1" tag="1" fade="0.2" class={style({ base: { maxWidth: "480px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "480px", textAlign: "center" }, tablet: {}, mobile: {} }} />
+    <Heading text={title} size="1" tag="1" fade="0.2" class="max-w-[480px] text-center" />
     {text && (
-      <Text text={text} size="large" isMarginBottom={true} fade="0.4" class={style({ base: { maxWidth: "580px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "580px", textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Text text={text} size="large" isMarginBottom={true} fade="0.4" class="max-w-[580px] text-center" />
     )}
   </Stack>
 </Section>

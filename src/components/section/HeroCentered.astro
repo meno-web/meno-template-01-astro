@@ -35,29 +35,13 @@ const {
 ---
 <Section theme={theme} class={style({}, __props, { root: true })}>
   <Stack horizontal="center">
-    <Heading text={title} size="1" fade="0" isMb0={false} class={style({
-        base: { maxWidth: "900px", textAlign: "center", color: "var(--text-100)" },
-        tablet: {},
-        mobile: {}
-      }, __props, { instance: true })} __menoStyle={{
-        base: { maxWidth: "900px", textAlign: "center", color: "var(--text-100)" },
-        tablet: {},
-        mobile: {}
-      }} />
+    <Heading text={title} size="1" fade="0" isMb0={false} class="max-w-[900px] text-[var(--text-100)] text-center" />
     {text && (
-      <Text text={text} size="large" fade="0.2" class={style({
-          base: { maxWidth: "650px", textAlign: "center", color: "var(--text-100)" },
-          tablet: {},
-          mobile: {}
-        }, __props, { instance: true })} __menoStyle={{
-          base: { maxWidth: "650px", textAlign: "center", color: "var(--text-100)" },
-          tablet: {},
-          mobile: {}
-        }} />
+      <Text text={text} size="large" fade="0.2" class="max-w-[650px] text-[var(--text-100)] text-center" />
     )}
     {buttonText && (
       <ButtonList fade="0.4">
-        <Button text={buttonText} link={buttonLink} />
+        <Button text={buttonText} link={buttonLink} variant="primary" isMarginTop={false} />
         {secondaryButtonText && (
           <Button text={secondaryButtonText} link={secondaryButtonLink} variant="secondary" />
         )}

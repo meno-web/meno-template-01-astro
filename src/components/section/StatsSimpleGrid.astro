@@ -31,20 +31,20 @@ const __props = resolveProps(Astro, {
 const { subtitle, title, text, items, theme, class: className } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
-  <div class={style({ base: { display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "var(--sh-mb)", marginRight: "auto", marginLeft: "auto" }, tablet: {}, mobile: {} }, __props)}>
+  <div class="mr-auto mb-(--sh-mb) ml-auto flex flex-col items-center">
     {subtitle && (
-      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Subtitle text={subtitle} fade="0" class="text-center" />
     )}
-    <Heading text={title} size="2" tag="2" fade="0.2" class={style({ base: { maxWidth: "640px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "640px", textAlign: "center" }, tablet: {}, mobile: {} }} />
+    <Heading text={title} size="2" tag="2" fade="0.2" class="max-w-[640px] text-center" />
     {text && (
-      <Text text={text} size="large" isMarginBottom={true} fade="0.4" class={style({ base: { maxWidth: "580px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "580px", textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Text text={text} size="large" isMarginBottom={true} fade="0.4" class="max-w-[580px] text-center" />
     )}
   </div>
   <Grid columns="4" gap="24" fade="0.4">
     {list(items).map((item, itemIndex) => (
-      <div class={style({ base: { textAlign: "center", padding: "24px" } }, __props, { label: "Stat Card" })}>
-        <Heading text={item.value} tag="3" size="1" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
-        <Text text={item.label} color="secondary" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <div class={style({}, __props, { label: "Stat Card" }) + " p-6 text-center"}>
+        <Heading text={item.value} tag="3" size="1" class="text-center" />
+        <Text text={item.label} color="secondary" class="text-center" />
       </div>
     ))}
   </Grid>

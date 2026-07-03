@@ -35,32 +35,22 @@ const {
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
   <Stack vertical="top" horizontal="center">
-    <div class={style({
-        base: {
-          maxWidth: "600px",
-          textAlign: "center",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center"
-        },
-        tablet: {},
-        mobile: {}
-      }, __props)}>
-      <Heading text={title} size="2" tag="2" fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+    <div class="flex flex-col items-center max-w-[600px] text-center">
+      <Heading text={title} size="2" tag="2" fade="0" class="text-center" />
       {text && (
-        <Text text={text} size="large" isMarginBottom={true} fade="0.2" class={style({ base: { maxWidth: "460px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "460px", textAlign: "center" }, tablet: {}, mobile: {} }} />
+        <Text text={text} size="large" isMarginBottom={true} fade="0.2" class="max-w-[460px] text-center" />
       )}
       <Spacer size="32" />
-      <div class={style({ base: { width: "100%", maxWidth: "460px" }, tablet: {}, mobile: {} }, __props)} fade={0.4}>
+      <div fade={0.4} class="w-full max-w-[460px]">
         <Form>
-          <div class={style({ base: { display: "flex", gap: "8px" }, tablet: {}, mobile: {} }, __props)}>
+          <div class="flex gap-2">
             <Input placeholder={placeholderText} />
             <Submit text={buttonText} />
           </div>
         </Form>
       </div>
       <Spacer size="24" />
-      <Text text={privacyText} size="small" fade="0.6" class={style({ base: { textAlign: "center", color: "var(--text-100)" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center", color: "var(--text-100)" }, tablet: {}, mobile: {} }} />
+      <Text text={privacyText} size="small" fade="0.6" class="text-[var(--text-100)] text-center" />
     </div>
   </Stack>
 </Section>

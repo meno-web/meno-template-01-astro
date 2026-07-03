@@ -45,13 +45,13 @@ const __props = resolveProps(Astro, {
 const { subtitle, title, text, theme, items, class: className } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
-  <div class={style({ base: { display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "var(--sh-mb)", marginRight: "auto", marginLeft: "auto", maxWidth: "600px" }, tablet: {}, mobile: {} }, __props)}>
+  <div class="mr-auto mb-(--sh-mb) ml-auto flex flex-col items-center max-w-[600px]">
     {subtitle && (
-      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Subtitle text={subtitle} fade="0" class="text-center" />
     )}
-    <Heading text={title} size="2" tag="2" fade="0.2" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+    <Heading text={title} size="2" tag="2" fade="0.2" class="text-center" />
     {text && (
-      <Text text={text} size="large" fade="0.4" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Text text={text} size="large" fade="0.4" class="text-center" />
     )}
   </div>
   <Grid columns="3" gap="24" fade="0.4">

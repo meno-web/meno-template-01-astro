@@ -46,7 +46,7 @@ const __props = resolveProps(Astro, {
 const { subtitle, title, text, theme, items, class: className } = __props;
 ---
 <Section spaceTop="default" spaceBottom="default" theme={theme} maxWidth="1280" class={style({}, __props, { root: true })}>
-  <div class={style({ base: { display: "flex", flexDirection: "column", alignItems: "flex-start", marginBottom: "var(--sh-mb)", marginRight: "auto", marginLeft: "auto" }, tablet: {}, mobile: {} }, __props)}>
+  <div class="mr-auto mb-(--sh-mb) ml-auto flex flex-col items-start">
     {subtitle && (
       <Subtitle text={subtitle} fade="0" />
     )}

@@ -82,35 +82,18 @@ const {
 } = __props;
 ---
 <Section theme={theme} spaceTop="default" cropped={!cropped} class={style({}, __props, { root: true })}>
-  <div class={style({
-      base: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        marginBottom: "var(--sh-mb)"
-      },
-      tablet: {},
-      mobile: {}
-    }, __props)}>
+  <div class="mb-(--sh-mb) flex flex-col items-center">
     {subtitle && (
-      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Subtitle text={subtitle} fade="0" class="text-center" />
     )}
-    <Heading text={title} size="2" tag="2" fade="0.2" class={style({ base: { textAlign: "center", maxWidth: "600px" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center", maxWidth: "600px" }, tablet: {}, mobile: {} }} />
-    <Text text={text} size="large" fade="0.4" class={style({ base: { maxWidth: "440px", textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { maxWidth: "440px", textAlign: "center" }, tablet: {}, mobile: {} }} />
+    <Heading text={title} size="2" tag="2" fade="0.2" class="max-w-[600px] text-center" />
+    <Text text={text} size="large" fade="0.4" class="max-w-[440px] text-center" />
   </div>
   <Slider gap={20} autoplay={autoplay} loop={loop} columns="3" cropped={cropped} fade="0.4">
     {list(items).map((item, itemIndex) => (
-      <div class={style({
-          base: {
-            backgroundColor: "var(--bg-100)",
-            borderRadius: "12px",
-            overflow: "hidden"
-          },
-          tablet: {},
-          mobile: {}
-        }, __props, { label: "Card" })}>
-        <Image image={item.image} aspectRatio="16/9" height="auto" width="100%" class={style({ base: { width: "100%", height: "auto" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { width: "100%", height: "auto" }, tablet: {}, mobile: {} }} />
-        <div class={style({ base: { padding: "24px" } }, __props, { label: "Card Body" })}>
+      <div class={style({}, __props, { label: "Card" }) + " bg-[var(--bg-100)] rounded-[12px] overflow-hidden"}>
+        <Image image={item.image} aspectRatio="16/9" height="auto" width="100%" class="w-full h-auto" />
+        <div class={style({}, __props, { label: "Card Body" }) + " p-6"}>
           <Heading text={item.title} size="4" />
           <Text size="default" text={item.text} />
         </div>

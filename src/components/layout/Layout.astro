@@ -1,5 +1,5 @@
 ---
-import { resolveProps, style } from 'meno-astro';
+import { cx, resolveProps, style } from 'meno-astro';
 import Banner from './Banner.astro';
 import FooterMultiColumn from './FooterMultiColumn.astro';
 import Navigation from './Navigation.astro';
@@ -7,11 +7,7 @@ import Navigation from './Navigation.astro';
 const __props = resolveProps(Astro, {});
 const { class: className } = __props;
 ---
-<div class={style({
-    base: { backgroundColor: "var(--bg)", fontFamily: "var(--l-ff)" },
-    tablet: {},
-    mobile: {}
-  }, __props, { root: true })} theme="light" data-theme-root="true">
+<div class={cx("bg-bg font-(--l-ff)", className)} theme="light" data-theme-root="true">
   <Banner text="Welcome! Check out our latest features and updates" variant="default" isDismissible={true} />
   <Navigation isOpen={false} />
   <main class={style({}, __props, { label: "main" })}><slot /></main>

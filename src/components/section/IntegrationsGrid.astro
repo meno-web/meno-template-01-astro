@@ -69,45 +69,21 @@ const __props = resolveProps(Astro, {
 const { subtitle, title, text, items, theme, class: className } = __props;
 ---
 <Section theme={theme} spaceTop="default" class={style({}, __props, { root: true })}>
-  <div class={style({ base: { display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "var(--sh-mb)", marginRight: "auto", marginLeft: "auto", maxWidth: "600px" }, tablet: {}, mobile: {} }, __props)}>
+  <div class="mr-auto mb-(--sh-mb) ml-auto flex flex-col items-center max-w-[600px]">
     {subtitle && (
-      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Subtitle text={subtitle} fade="0" class="text-center" />
     )}
-    <Heading text={title} size="2" tag="2" fade="0.2" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+    <Heading text={title} size="2" tag="2" fade="0.2" class="text-center" />
     {text && (
-      <Text text={text} size="large" fade="0.4" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Text text={text} size="large" fade="0.4" class="text-center" />
     )}
   </div>
   <Grid columns="4" gap="24" fade="0.4">
     {list(items).map((item, itemIndex) => (
-      <div class={style({
-          base: {
-            backgroundColor: "var(--surface)",
-            borderRadius: "12px",
-            padding: "24px",
-            border: "1px solid var(--border-100)",
-            textAlign: "center",
-            transition: "transform 0.2s ease, box-shadow 0.2s ease"
-          },
-          tablet: {},
-          mobile: {}
-        }, __props, {
-          interactive: [
-            {
-              prefix: "",
-              postfix: ":hover",
-              style: {
-                base: {
-                  transform: "translateY(-4px)",
-                  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.08)"
-                }
-              }
-            }
-          ]
-        })}>
-        <div class={style({ base: { marginBottom: "16px", display: "inline-block" } }, __props)}><Image image={item.icon} alt={item.title} objectFit="contain" width="48px" height="48px" class={style({ base: { height: "32px" } }, __props, { instance: true })} __menoStyle={{ base: { height: "32px" } }} /></div>
-        <Heading text={item.title} size="6" tag="3" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
-        <Text text={item.text} size="small" class={style({ base: { textAlign: "center", color: "var(--text-100)" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center", color: "var(--text-100)" }, tablet: {}, mobile: {} }} />
+      <div class="p-6 bg-surface border-[1px_solid_var(--border-100)] rounded-[12px] text-center transition-[transform_0.2s_ease,_box-shadow_0.2s_ease] hover:transform-[translateY(-4px)] hover:shadow-[0_8px_24px_rgba(0,_0,_0,_0.08)]">
+        <div class="mb-4 inline-block"><Image image={item.icon} alt={item.title} objectFit="contain" width="48px" height="48px" class="h-8" /></div>
+        <Heading text={item.title} size="6" tag="3" class="text-center" />
+        <Text text={item.text} size="small" class="text-[var(--text-100)] text-center" />
       </div>
     ))}
   </Grid>

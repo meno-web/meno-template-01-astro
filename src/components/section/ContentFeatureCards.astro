@@ -1,5 +1,5 @@
 ---
-import { list, resolveProps, style } from 'meno-astro';
+import { list, resolveProps, richTextWithComponents, style } from 'meno-astro';
 import Card from '../ui/Card.astro';
 import Grid from '../ui/Grid.astro';
 import Heading from '../ui/Heading.astro';
@@ -7,6 +7,7 @@ import Section from '../ui/Section.astro';
 import Spacer from '../ui/Spacer.astro';
 import Subtitle from '../ui/Subtitle.astro';
 import Text from '../ui/Text.astro';
+import { cmsComponents } from '../../cmsComponents';
 
 const __props = resolveProps(Astro, {
   subtitle: { type: "string", default: "Features" },
@@ -53,13 +54,13 @@ const __props = resolveProps(Astro, {
 const { subtitle, title, text, theme, items, class: className } = __props;
 ---
 <Section spaceTop="default" spaceBottom="default" theme={theme} class={style({}, __props, { root: true })}>
-  <div class={style({ base: { display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "var(--sh-mb)", marginRight: "auto", marginLeft: "auto", maxWidth: "450px" }, tablet: {}, mobile: {} }, __props)}>
+  <div class="mr-auto mb-(--sh-mb) ml-auto flex flex-col items-center max-w-[450px]">
     {subtitle && (
-      <Subtitle text={subtitle} fade="0" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Subtitle text={subtitle} fade="0" class="text-center" />
     )}
-    <Heading text={title} size="2" tag="2" fade="0.2" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+    <Heading text={title} size="2" tag="2" fade="0.2" class="text-center" />
     {text && (
-      <Text text={text} size="large" isMarginBottom={true} fade="0.4" class={style({ base: { textAlign: "center" }, tablet: {}, mobile: {} }, __props, { instance: true })} __menoStyle={{ base: { textAlign: "center" }, tablet: {}, mobile: {} }} />
+      <Text text={text} size="large" isMarginBottom={true} fade="0.4" class="text-center" />
     )}
   </div>
   <Grid columns="2" gap="24" fade="0.4">
@@ -68,13 +69,7 @@ const { subtitle, title, text, theme, items, class: className } = __props;
         <Heading text={item.title} size="3" tag="3" />
         <Text text={item.text} isMarginBottom={true} />
         <Spacer size="24" />
-        <div class={style({
-            base: {
-              fontSize: "15px",
-              lineHeight: "1.8",
-              color: "var(--text-secondary)"
-            }
-          }, __props)}>{item.features}</div>
+        <div class="text-text-secondary text-[15px] leading-[1.8]"><Fragment set:html={richTextWithComponents(item.features, cmsComponents)} /></div>
       </Card>
     ))}
   </Grid>

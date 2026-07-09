@@ -6,6 +6,7 @@ import FaqAccordion from '../components/section/FaqAccordion.astro';
 import HeroCentered from '../components/section/HeroCentered.astro';
 import Layout from '../components/layout/Layout.astro';
 import SliderCards from '../components/section/SliderCards.astro';
+import TestimonialsGridAlt from '../components/section/TestimonialsGridAlt.astro';
 import TimelineVertical from '../components/section/TimelineVertical.astro';
 import '../styles/theme.css';
 
@@ -17,6 +18,7 @@ const meta = {
 <BaseLayout meta={meta}>
   <Layout>
     <HeroCentered title={`Everything you need to build <span class="custom-span">professional</span> website`} text="Design and publish professional websites without writing code. Start with this template and make it yours in minutes." theme="light" secondaryButtonText="Secondary action" />
+    <TestimonialsGridAlt />
     <SliderCards />
     <TimelineVertical title="Simple steps to get started" subtitle="How It Works" text="Follow these easy steps to begin your journey with us." items={[
         {

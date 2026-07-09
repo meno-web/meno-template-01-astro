@@ -1,5 +1,5 @@
 ---
-import { resolveProps, style } from 'meno-astro';
+import { cx, resolveProps, style, variants } from 'meno-astro';
 import { MenoImage } from 'meno-astro/components';
 
 const __props = resolveProps(Astro, {
@@ -15,12 +15,20 @@ const __props = resolveProps(Astro, {
     default: "/images/placeholder-img.webp",
     accept: "image/*"
   },
+  height: { type: "string" },
+  border: { type: "boolean" },
+  rounded: {
+    type: "select",
+    default: "none",
+    options: ["large", "medium", "none"]
+  },
   fetchpriority: {
     type: "select",
     default: "auto",
     options: ["auto", "high", "low"]
   },
   sizes: { type: "string", default: "" },
+  width: { type: "string", default: "100%" },
   aspectRatio: { type: "string", default: "" },
   fade: { type: "string", default: "" }
 });
@@ -29,8 +37,12 @@ const {
   loading,
   objectFit,
   image,
+  height,
+  border,
+  rounded,
   fetchpriority,
   sizes,
+  width,
   aspectRatio,
   fade,
   class: className,
@@ -38,4 +50,25 @@ const {
 
 const __meno = { acceptsStyles: true };
 ---
-<MenoImage class={style({ base: { objectFit: "{{objectFit}}", aspectRatio: "{{aspectRatio}}" } }, __props) + " block w-full h-full border-border"} style={`--m-base-object-fit: ${objectFit}; --m-base-aspect-ratio: ${aspectRatio}`} src={image || undefined} alt={alt || undefined} loading={loading || undefined} fetchpriority={fetchpriority || undefined} sizes={sizes || undefined} fade={fade || undefined} />
+<MenoImage class={cx(style({
+    base: {
+      height: "{{height}}",
+      objectFit: "{{objectFit}}",
+      width: "{{width}}",
+      aspectRatio: "{{aspectRatio}}"
+    }
+  }, __props), variants(__props, {
+    border: {
+      default: "border-[1px_solid]",
+      true: "border-[1px_solid]",
+      false: "border-[none]"
+    },
+    rounded: {
+      default: "rounded-none",
+      true: "rounded-[12px]",
+      false: "rounded-none",
+      large: "rounded-[16px]",
+      medium: "rounded-[8px]",
+      none: "rounded-none"
+    }
+  })) + " block max-w-full border-border"} style={`--m-base-height: ${height}; --m-base-object-fit: ${objectFit}; --m-base-width: ${width}; --m-base-aspect-ratio: ${aspectRatio}`} src={image || undefined} alt={alt || undefined} loading={loading || undefined} fetchpriority={fetchpriority || undefined} sizes={sizes || undefined} fade={fade || undefined} />

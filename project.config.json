@@ -83,7 +83,7 @@
       }
     ]
   },
-  "deploymentMethod": "cloudflare",
+  "deploymentMethod": "github",
   "name": "meno-template-01-astro",
   "format": "astro",
   "__componentLibraries": {

@@ -202,10 +202,15 @@ Non-color bracket utilities (`text-[3.5rem]`, `gap-[8px]`, gradients) are fine i
   `[font-family:var(--font-mono)]`, `[transition:all_0.3s]`. Use for anything without a
   named utility.
 - **Gradient:** `bg-[linear-gradient(189deg,var(--a)_12%,var(--b))]` — works verbatim.
-- **BORDER:** bare `border` / `border-2` / `border-solid` produce **no border**
-  (`border-[1px]` emits the `border` shorthand → resets style to `none`). Use
-  `border-[1px_solid_var(--token)]` (shorthand) or `[border-width:1px] [border-style:solid]
-  border-(--token)`. Same for one side: `[border-bottom:1px_solid_var(--token)]`.
+- **BORDER:** bare `border` / `border-2` / `border-t` / `border-b-4` / `border-solid` now render a
+  visible `1px solid` border (the width you name + `solid`; the color is left off so it inherits the
+  current text color) — Meno supplies the style a Preflight-less setup otherwise lacks. Set the **color**
+  with a token or literal — `border` `border-(--token)` (or `border-[#0c0c0c]`); the per-side forms emit
+  no color at all, so a `border-<token>` class controls it with no cascade fight — and the **style** with
+  `border-dashed` / `border-dotted`. `border-x` / `border-y` target the inline / block axes. Still
+  unsupported: Tailwind's palette (`border-gray-200`) — use a token. The fully-explicit
+  `border-[1px_solid_var(--token)]` / `[border-bottom:1px_solid_var(--token)]` forms remain valid if you
+  prefer to name everything in one utility.
 - **Layout:** `flex`, `inline-flex`, `flex-col`, `grid`, `grid-cols-2`, `items-center`,
   `justify-center`, `justify-start`, `gap-[8px]`, `flex-wrap`, `h-full`, `w-full`,
   `overflow-auto`, `hidden`, `inline-block`, `uppercase`, `no-underline`.

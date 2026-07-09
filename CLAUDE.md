@@ -1,4 +1,4 @@
-<!-- MENO_DOCS_VERSION: 0.1.21 -->
+<!-- MENO_DOCS_VERSION: 0.1.26 -->
 # Meno is a visual Astro editor
 
 Meno reads and writes `.astro` files in a constrained *meno-astro dialect* — a small subset of Astro
@@ -49,7 +49,9 @@ node/prop catalog + skeletons below.
    `font-sans` emit `var(--token)` and render **only if that variable is defined** in `src/styles/theme.css` —
    else inert (Meno is token-based; no fallback to Tailwind's px/rem). For a one-off use a bracket
    (`text-[18px]`) or define the token. *Computed* forms work standalone: `w-1/2`, `-mt-4`, `grid-cols-3`,
-   `col-span-2`, `scale-105`, `rotate-45`, `duration-300`, `ease-in-out`. **Only** prop-bound
+   `col-span-2`, `scale-105`, `rotate-45`, `duration-300`, `ease-in-out`, and borders (`border`,
+   `border-b`, `border-2`, `border-solid` → a visible `1px solid` border, color inherits; set it with
+   `border-<token>`/`border-[#hex]`). **Only** prop-bound
    `{{template}}`, prop-variant, and component-root styling can't be a class → `style()` / `variants()` / `cx()`.
    It styles **every** node the same way — an `<Embed>`, `<Link>`, or `<Markdown>` carries `class="…"`
    just like a `<div>` (an instance rides its `class` prop); only `list`/`island`/`slot`/`custom` have no styling.
@@ -57,7 +59,11 @@ node/prop catalog + skeletons below.
 3. **Meno templates** — model `{{expr}}` ↔ markup `{expr}` (bare identifier / member / ternary) or
    `` `…${expr}…` ``.
 4. **Component props are JSX attributes** — `text="Hi"`, `size={1}`, `link={{ href: "/x" }}`,
-   `text={i18n({…})}`; Capitalized tags need a matching local import in the frontmatter.
+   `text={i18n({…})}`; Capitalized tags need a matching frontmatter import — **your** components from
+   `../components/…`, but the built-in node components (`Link`, `Embed`, `Markdown`, `MenoImage`,
+   `LocaleList`) from `meno-astro/components`. Emit auto-injects these, so a hand-written `<Link>`
+   missing `import { Link } from 'meno-astro/components'` round-trips fine but throws `Link is not
+   defined` at render until the next save.
 5. **`resolveProps(Astro, {…})` is authoritative** — declare props exactly once
    (`const { …names…, class: className } = resolveProps(Astro, {…})`); keep `class: className`; emit
    the call even when empty. Optional `const __meno = {…}` carries `acceptsStyles` / `libraries`
@@ -65,21 +71,26 @@ node/prop catalog + skeletons below.
    `ui/`, `sections/`), not by metadata — a `__meno.category` round-trips but is inert for
    grouping, so organize with folders.
 6. **Conditionals & lists** — `{cond && ( … )}`; prop list `{ list(items, {…}).map((item, itemIndex) =>
-   ( … )) }`, collection list `getCollectionList("blog", {…}, Astro)` mapped in the body (the loop var
-   must match the `{{…}}` bindings inside). A prop list's backing prop must be declared
+   ( … )) }`, collection list `getCollectionList("blog", {…}, Astro, getCollection)` mapped in the body
+   (the loop var must match the `{{…}}` bindings inside; `getCollection` from `astro:content` is the
+   **required** 4th arg — omit it and the list silently returns `[]`). A prop list's backing prop must be declared
    `type: "list"` with **`itemSchema` + an object-array `default`** (`[{ label: "First" }]`), not a
    bare-string `default` — that round-trips + builds but won't open in Studio (see Node & prop forms).
 7. **`const meta` is a plain object** — never `export const meta` / `satisfies …` / `import type`
    (those break the real `astro build`). SEO/head fields (`viewTransitions`, `noindex`, `sitemap`,
    `customCode`, `prerender`) ride the same object.
-8. **CMS rich-text renders via a helper** — `<Fragment set:html={richTextWithComponents(cms.field,
-   cmsComponents)} />`, never a text interpolation (`{i18n(cms.richField)}` would print `[object
-   Object]`). The **same** registry-backed render applies to a `type:"rich-text"` **prop**
-   (`set:html={richTextWithComponents(<prop>, cmsComponents)}`) and an **`<Embed>`** of a rich-text
-   field (`<Embed html={…} components={cmsComponents} />`) — a bare `set:html={value}` renders text
-   but **drops any component embedded in the rich text** (it ships as an empty `<div
-   data-meno-component>`). The collection schema lives in the template page's `meta.cms`, **not**
-   `content.config.ts` (which is generated with a permissive schema).
+8. **CMS rich-text renders via a helper** — a rich-text value renders as REAL HTML through
+   `set:html={…}`, never a text interpolation (`{i18n(cms.richField)}` would print `[object
+   Object]`). The helper is picked by the field/prop's `editor` meta: **Basic** (`editor`
+   absent/`"basic"`, the common case) → the lean `set:html={richText(value)}` (i18n + link
+   localization, **no** component registry); **Extended** (`editor:"extended"`) →
+   `set:html={richTextWithComponents(value, cmsComponents)}` so project components embedded in the
+   rich text render (the lean form or a bare `set:html={value}` would ship them as an empty `<div
+   data-meno-component>`). Same three ways — a CMS text child (`richText(cms.field)` vs
+   `richTextWithComponents(cms.field, cmsComponents)`), a `type:"rich-text"` **prop**, and an
+   **`<Embed>`** of a rich-text field (Extended adds `components={cmsComponents}`; Basic omits it).
+   The collection schema lives in the template page's `meta.cms`, **not** `content.config.ts` (which
+   is generated with a permissive schema).
 9. **Never import a renderer or adapter in `astro.config`** — add SSR adapters and island framework
    renderers via `project.config.json` (the preview allow-lists only `astro/config` + `meno-astro` and
    won't open the project otherwise).
@@ -88,6 +99,14 @@ node/prop catalog + skeletons below.
 11. **Out-of-grammar content is lost on save** — flag it, don't write it. To escape the dialect, climb
     the escalation ladder: native dialect → custom component (or island, for a client framework) →
     hand-authored page (see below).
+12. **A section/listing page is a top-level file, not a nested `index.astro`** — use
+    `src/pages/blog.astro` for `/blog`, NOT `src/pages/blog/index.astro`. Only the site root
+    (`src/pages/index.astro` → `/`) may be an `index.astro`. This matters for **multi-locale**
+    projects: the injected locale route derives a page's id from its path, and a nested index's
+    id is `blog/index` (not `blog`), so its localized URL becomes `/pl/blog/index` and **`/pl/blog`
+    404s** (the default-locale `/blog` still works via Astro's own routing, which hides the miss).
+    Pair a collection listing `blog.astro` with its item template `blog/[slug].astro` — both can
+    coexist in Astro.
 
 ---
 
@@ -95,15 +114,18 @@ node/prop catalog + skeletons below.
 
 Everyday building blocks. Component tags are Capitalized and need a matching frontmatter import
 (`'../components/Name.astro'` from a page, `'./Name.astro'` from a component); HTML stays lowercase.
+The built-in node components below — `Link`, `Embed`, `Markdown`, `MenoImage`, `LocaleList` — import
+instead from `meno-astro/components` (`import { Link } from 'meno-astro/components'`).
 
 - **Text** — in `children`: `<span>Hello</span>`; template child `<span>{item.title}</span>` (→
   `{{item.title}}`); mixed string → backtick literal `<span>{`$${item.price}`}</span>`.
 - **Link** — `<Link href="/x">…</Link>`; i18n / mapping href via `href={i18n({…})}` or `href={href({…})}`.
 - **Conditional** — `{cond && ( … )}` (`if: "{{visible}}"` → `{visible && (…)}`; `if: false` →
   `{false && (…)}`; `BooleanMapping` → `{when({…}) && (…)}`).
-- **Collection list** — frontmatter `const blogList = await getCollectionList("blog", {…}, Astro)` then
-  `{ blogList.map((blog, blogIndex) => (…)) }`; loop var (default `singularize(source)`) must match the
-  `{{blog.*}}` bindings in the body.
+- **Collection list** — frontmatter `const blogList = await getCollectionList("blog", {…}, Astro,
+  getCollection)` (import `getCollection` from `astro:content` — it's the **required** 4th arg; without
+  it the list silently returns `[]`) then `{ blogList.map((blog, blogIndex) => (…)) }`; loop var
+  (default `singularize(source)`) must match the `{{blog.*}}` bindings in the body.
 - **slot** — `<slot />` / `<slot>fallback</slot>`; named `<slot name="header" />` filled by a child
   `slot="header"` attr; unnamed children → the default slot.
 - **Embed** — `<Embed html={`<svg>…</svg>`} />` single-line; multi-line → hoist to a frontmatter
@@ -197,8 +219,9 @@ CLAUDE.md covers everyday editing. Load more **only** for the specialized cases:
 
 - **CMS template pages** (`src/pages/<collection>/[slug].astro`) — a page with `meta.source === "cms"` +
   a `meta.cms` schema (the schema lives there, **not** `content.config.ts`); plain fields render via
-  `{i18n(cms.field)}`, rich-text via `<Fragment set:html={richTextWithComponents(cms.field,
-  cmsComponents)} />` (tripwire 8). The skill has the full skeleton + the data-only / RSS variants.
+  `{i18n(cms.field)}`, rich-text via `<Fragment set:html={richText(cms.field)} />` (Basic) or
+  `<Fragment set:html={richTextWithComponents(cms.field, cmsComponents)} />` (Extended, `editor:"extended"`)
+  (tripwire 8). The skill has the full skeleton + the data-only / RSS variants.
 - the **`/meno-astro` skill** (`.claude/commands/meno-astro.md`) — the full authoring cheat-sheet: exact
   forms for islands & custom components, prop-variant / component-root styling
   (`variants()` / `cx()` / `inlineStyle()`), `LocaleList`, verbatim-JS markers, the CMS template skeleton,

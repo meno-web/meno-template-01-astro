@@ -126,7 +126,8 @@ From `example/templates/blog-post.json` (a `blog` collection):
 ```astro
 ---
 import { getCollection } from 'astro:content';
-import { richTextWithComponents, style } from 'meno-astro';
+// richText (Basic) / richTextWithComponents (Extended) — import whichever the field's `editor` needs.
+import { richText, richTextWithComponents, style } from 'meno-astro';
 import { BaseLayout } from 'meno-astro/components';
 import Heading from '../../components/Heading.astro';
 import { cmsComponents } from '../../cmsComponents';
@@ -150,11 +151,12 @@ const meta = {
 ---
 <BaseLayout meta={meta}>
   <!-- body: plain fields {{cms.field}} → {i18n(cms.field)} (§6.4 — raw entry.data
-       needs the resolver). A RICH-TEXT field bound as a text child renders through
-       `<Fragment set:html={richTextWithComponents(cms.field, cmsComponents)} />`,
-       NOT a text interpolation — a rich-text value is a structured object, so
-       {i18n(cms.richField)} would print [object Object] — and embedded components
-       (TipTap `menoComponent` nodes) render against the generated registry. See §6.4. -->
+       needs the resolver). A RICH-TEXT field bound as a text child renders as HTML via
+       set:html, NOT a text interpolation ({i18n(cms.richField)} would print [object Object]).
+       The helper is tiered by the field's `editor` meta: Basic (default) →
+       `<Fragment set:html={richText(cms.field)} />` (lean, no registry); Extended
+       (`editor:"extended"`) → `<Fragment set:html={richTextWithComponents(cms.field, cmsComponents)} />`
+       (renders embedded `menoComponent` nodes against the generated registry). See §6.4. -->
 </BaseLayout>
 ```
 
@@ -163,8 +165,9 @@ const meta = {
   `root`. The model round-trips exactly: `parse(emit(normalizeModel(t))) === normalizeModel(t)`.
 - **Derived / boilerplate (emit-only)**: the `import { getCollection }`, the
   `getStaticPaths()` function, `const { cms } = Astro.props;`, and the
-  `import { cmsComponents } from '<rel>/cmsComponents'` registry import (added whenever the
-  body binds a rich-text field, [§6.4](#64-cms-data-bindings-wrap-in-i18n)) are regenerated
+  `import { cmsComponents } from '<rel>/cmsComponents'` registry import (added whenever an
+  **Extended** (`editor:"extended"`) rich-text binding is emitted — a Basic binding renders via
+  the lean `richText()` and imports no registry, [§6.4](#64-cms-data-bindings-wrap-in-i18n)) are regenerated
   deterministically from `meta.cms` on emit. The parser **recognizes and skips** them —
   exactly like it skips `interface Props` / the `resolveProps` destructuring for
   components — so they carry no model state. (Helpers: `packages/astro/lib/dialect/cmsRoute.ts`.)
@@ -745,7 +748,8 @@ A CMS-backed list hoists its query to a frontmatter `const` and maps over it. Fr
 
 ```astro
 ---
-const productsList = await getCollectionList("products", { emitTemplate: true }, Astro);
+import { getCollection } from 'astro:content';
+const productsList = await getCollectionList("products", { emitTemplate: true }, Astro, getCollection);
 ---
 <!-- … -->
 {productsList.map((item, itemIndex) => (
@@ -765,8 +769,12 @@ const productsList = await getCollectionList("products", { emitTemplate: true },
   empty-template attribute guard, meno-core's `skipEmptyTemplateAttributes` parity.)
 - Query fields hoisted into the `getCollectionList` literal: `filter`, `sort`, `limit`,
   `offset`, `items`, `excludeCurrentItem`, `emitTemplate`.
-- `getCollectionList` receives `Astro` as its last argument (so it can resolve the current
-  route/locale at build time).
+- `getCollectionList` receives `Astro` (so it can resolve the current route/locale at build
+  time) and, as its **required** last argument, `astro:content`'s `getCollection` — meno-astro
+  never imports `getCollection` itself, and if it isn't passed `getCollectionList` returns `[]`
+  (an empty list, silently). The emitter always writes the four-arg form
+  `getCollectionList(source, query, Astro, getCollection)` plus the `import { getCollection } from
+  'astro:content'`, using `{}` for an empty query.
 
 > **Note (legacy cms-list loop variable).** Legacy `cms-list` children use the implicit
 > `{{item.*}}` convention, so the migration (`normalize.ts`) rewrites `cms-list → list`
@@ -930,31 +938,48 @@ passes it through.
 > Astro string-coerces an object child), and text interpolation HTML-escapes anyway. A
 > `{{cms.body}}` **text child** whose field is declared `type:"rich-text"` (the page's own
 > `meta.cms.fields`; for shared components, the project-wide union the converter threads —
-> `EmitOptions.cmsRichTextFields`) emits as
-> `<Fragment set:html={richTextWithComponents(cms.body, cmsComponents)} />` plus an
-> `import { cmsComponents } from '<rel>/cmsComponents'` — the converter-generated registry
-> module (`src/cmsComponents.ts`, an eager `import.meta.glob` over `src/components/`).
-> `richTextWithComponents()` resolves the per-locale value, converts TipTap → HTML, and
-> renders embedded components (TipTap `menoComponent` nodes) for real: URL-bearing embeds
-> (Youtube/Vimeo) become their responsive iframe; any other component is rendered to HTML
-> via Astro's Container API against the registry. The **same registry-backed render** also
-> covers the two other ways a rich-text value reaches the page, so embedded components render
-> everywhere a rich-text field can be shown — not just as a text child:
+> `EmitOptions.cmsRichTextFields`) therefore emits as REAL HTML via `set:html={…}`. **Which
+> helper is chosen is tiered by the field's `editor` meta:**
+>
+> - **Basic** (`editor` absent or `"basic"` — the common case) emits
+>   `<Fragment set:html={richText(cms.body)} />`. `richText()` resolves the per-locale value,
+>   converts TipTap → HTML, runs the URL-embed fast path + internal-link localization, and
+>   imports **no** registry. It does NOT expand embedded `menoComponent` markers.
+> - **Extended** (`editor:"extended"`) emits
+>   `<Fragment set:html={richTextWithComponents(cms.body, cmsComponents)} />` plus an
+>   `import { cmsComponents } from '<rel>/cmsComponents'` — the converter-generated registry
+>   module (`src/cmsComponents.ts`, an eager `import.meta.glob` over `src/components/`).
+>   `richTextWithComponents()` does everything `richText` does **and** renders embedded
+>   components (TipTap `menoComponent` nodes) for real: URL-bearing embeds (Youtube/Vimeo)
+>   become their responsive iframe; any other component is rendered to HTML via Astro's
+>   Container API against the registry.
+>
+> The **same `editor`-tiered split** also covers the two other ways a rich-text value reaches the
+> page, so the render form is consistent everywhere a rich-text field can be shown — not just as a
+> text child:
 >
 > - A **rich-text prop** (`{{body}}` where `body` is a `type:"rich-text"` prop, e.g. a CMS field
->   forwarded `<RichBlock body={cms.body} />`) emits
->   `<Fragment set:html={richTextWithComponents(body, cmsComponents)} />` (+ the registry import).
-> - An **embed node** binding a rich-text field (`type:"embed"` with `html: "{{cms.body}}"`)
->   emits `<Embed html={i18n(cms.body)} components={cmsComponents} />` — the emitter passes the
->   registry so `Embed` renders embedded components via `richTextWithComponents`; a verbatim /
->   URL / non-rich-text embed keeps the lighter `toHtmlString` path (`components` omitted). The
->   `components` attr is emit-only plumbing, dropped on parse.
+>   forwarded `<RichBlock body={cms.body} />`) emits `<Fragment set:html={richText(body)} />` (Basic)
+>   or `<Fragment set:html={richTextWithComponents(body, cmsComponents)} />` (Extended, + the registry
+>   import). The prop's own `editor` meta decides.
+> - An **embed node** binding a rich-text field (`type:"embed"` with `html: "{{cms.body}}"`) emits
+>   `<Embed html={i18n(cms.body)} components={cmsComponents} />` for an **Extended** field — the
+>   emitter passes the registry so `Embed` renders embedded components via `richTextWithComponents`.
+>   A **Basic** field (or a verbatim / URL / non-rich-text embed) omits `components`, and `Embed`
+>   normalizes the value via `richText`. The `components` attr is emit-only plumbing, dropped on parse.
 >
-> **Parse rule:** `richTextWithComponents(<chain>, cmsComponents)` reverses to the
-> `{{<chain>}}` text child (the registry arg is emit-only plumbing); the legacy single-arg
-> `richText(<chain>)` form still reverses too, so files emitted before the registry
-> existed keep parsing. Like the `i18n()` wrap, the spelling is reserved — emit is the
-> sole authority on where it appears.
+> **Union rule (shared components only):** a shared component carries no CMS schema, so the converter
+> threads the project-wide unions by name — `cmsRichTextFields` (any rich-text field) and
+> `cmsRichTextExtendedFields` (Extended in **at least one** collection). A field name Extended in any
+> collection is treated Extended in a shared component (safe — keeps embedded components rendering).
+> A CMS template page reads its **own** schema, so its split is exact.
+>
+> **Parse rule:** BOTH `richTextWithComponents(<chain>, cmsComponents)` and the single-arg
+> `richText(<chain>)` reverse to the `{{<chain>}}` text child (the registry arg is emit-only
+> plumbing; the field's `editor` meta — carried in `meta.cms.fields` / the prop interface — is what
+> re-selects the form on the next emit). `richText(<chain>)` is the **active Basic target**, not a
+> legacy form. Like the `i18n()` wrap, the spelling is reserved — emit is the sole authority on
+> where it appears.
 
 **Parse rule** (`reverseI18nWrap` in `parseLiteral.ts`). In every expression position
 (whole expression, `${…}` interpolation, structured-literal value, the `|| undefined`
@@ -1059,7 +1084,8 @@ The emitted `.astro` imports a small set of helpers from `meno-astro` and
 | `list(src, opts?)` | `meno-astro` | Tolerant prop-list slicing (offset/limit). |
 | `getCollectionList(src, query?, Astro, getCollection)` | `meno-astro` | Resolve a CMS collection list at build time. |
 | `embedHtml(value, props?)` | `meno-astro` | Resolve a structured embed payload to an HTML string. |
-| `richTextWithComponents(value, cmsComponents)` | `meno-astro` | Render a CMS rich-text value (TipTap doc) to HTML **including embedded components**: locale resolve → TipTap → HTML → URL-embed fast path → link localization, then each remaining `menoComponent` marker is rendered via Astro's Container API against the project registry (`src/cmsComponents.ts`, generated by the converter). Returns a promise; `set:html` awaits it natively. ([§6.4](#64-cms-data-bindings-wrap-in-i18n)) |
+| `richText(value)` | `meno-astro` | The **Basic** rich-text render (a rich-text field/prop with `editor` absent or `"basic"`): locale resolve → TipTap doc/marker → HTML → URL-embed fast path → internal-link localization. Handles a TipTap object or a plain HTML string; imports **no** component registry. Does NOT expand embedded `menoComponent` markers (use the Extended helper for that). ([§6.4](#64-cms-data-bindings-wrap-in-i18n)) |
+| `richTextWithComponents(value, cmsComponents)` | `meno-astro` | The **Extended** rich-text render (`editor:"extended"`): everything `richText` does **plus** rendering embedded components — each remaining `menoComponent` marker is rendered via Astro's Container API against the project registry (`src/cmsComponents.ts`, generated by the converter). Returns a promise; `set:html` awaits it natively. ([§6.4](#64-cms-data-bindings-wrap-in-i18n)) |
 | `BaseLayout`, `Link`, `Embed`, `LocaleList` | `meno-astro/components` | Runtime Astro components. `Link`/`Embed` localize internal hrefs to the active locale; `BaseLayout` emits hreflang alternates; `LocaleList` renders slug-translated switcher links. |
 
 > **Status: implemented and published** (`meno-astro` on npm; all helpers live in
@@ -1071,6 +1097,16 @@ The emitted `.astro` imports a small set of helpers from `meno-astro` and
 > locale routing via the injected `/[locale]/[...path]` route, `meta.slugs` and the
 > filename-is-default-URL invariant, link localization, hreflang, and the editor's
 > slug-rename semantics.
+>
+> **Page-file naming gotcha (multi-locale).** The injected `/[locale]/[...path]` route
+> enumerates non-default-locale URLs from each page's id = its path under `src/pages/`
+> (minus `.astro`). A nested `src/pages/blog/index.astro` has id `blog/index` (the `/index`
+> is *not* collapsed for non-default locales the way Astro's own file routing collapses it
+> for the default locale), so its Polish URL is `/pl/blog/index` and **`/pl/blog` 404s** —
+> while the default-locale `/blog` still resolves via Astro routing, masking the bug in
+> single-locale testing. Author a section/listing page as a **top-level** `src/pages/blog.astro`
+> (id `blog` → `/blog`, `/pl/blog`); only the site root is an `index.astro`. `blog.astro`
+> (listing) and `blog/[slug].astro` (item template) coexist.
 
 ---
 
@@ -1166,12 +1202,14 @@ If you are writing or editing meno-astro dialect by hand (or as an AI), the rule
       the wrap resolves i18n fields; identity otherwise). `{i18n(<chain>)}` always parses
       back to `{{<chain>}}`; don't hand-write the wrap outside those scopes (it normalizes
       away on the next save).
-   2. **Rich-text CMS fields bound as a text child render through
-      `<Fragment set:html={richTextWithComponents(cms.field, cmsComponents)} />`**
-      ([§6.4](#64-cms-data-bindings-wrap-in-i18n)) — never a text interpolation (an object
-      child prints `[object Object]`). The `cmsComponents` registry import
-      (`import { cmsComponents } from '<rel>/cmsComponents'`) is emit-only boilerplate;
-      the whole form parses back to the `{{cms.field}}` text child.
+   2. **Rich-text CMS fields bound as a text child render as HTML via `set:html={…}`, tiered by
+      the field's `editor` meta** ([§6.4](#64-cms-data-bindings-wrap-in-i18n)) — never a text
+      interpolation (an object child prints `[object Object]`). **Basic** (default) →
+      `<Fragment set:html={richText(cms.field)} />` (lean, no registry); **Extended**
+      (`editor:"extended"`) → `<Fragment set:html={richTextWithComponents(cms.field, cmsComponents)} />`
+      (+ the emit-only `import { cmsComponents } from '<rel>/cmsComponents'` boilerplate — renders
+      embedded components). Both forms parse back to the `{{cms.field}}` text child; `editor` decides
+      the re-emitted form.
 4. **Component props are JSX attributes.** Numbers/booleans use `{…}`; objects use literal
    `{{ … }}`; i18n strings use `i18n({…})`.
 5. **The `resolveProps(Astro, {…})` argument is authoritative** — there is no separate

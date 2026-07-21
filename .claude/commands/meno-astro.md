@@ -32,6 +32,12 @@ needs detail beyond this cheat-sheet.
    form** — the editor canonicalizes on-scale + known-token values to the named form on save (`p-[16px]`
    re-emits as `p-4`).
    ✅ `<div class="flex gap-[12px] p-[24px] max-lg:p-[16px] hover:bg-[#222]">` · foreign coexist: `class="p-[24px] swiper"`
+   ❌ **Don't scaffold a NEW design as semantic classes + CSS** (`class="hero"` + a `<style>` /
+   stylesheet defining `.hero { … }`) — it builds, but it's foreign CSS the visual styles panel
+   can't represent, so the design lands visually un-editable. Even on a blank project: define the
+   design system as tokens in `src/styles/theme.css` first, then style with utility classes bound
+   to them. A component `<style>` is only for what utilities can't express — `@keyframes`,
+   `::before`/`::after`, complex selectors — never layout/spacing/color/typography.
    **Every styleable node carries it the same way** — an `<Embed>`, `<Link>`, or `<Markdown>` takes
    `class="…"` (incl. `hover:`/`focus:`/`active:`) just like a `<div>`; only `list`/`island`/`slot`/`custom` have no styling.
    **Named VALUE scales bind to YOUR variables — never Tailwind's defaults.** `text-lg`, `font-semibold`,
@@ -42,11 +48,28 @@ needs detail beyond this cheat-sheet.
    `shadow-[0_4px_12px_#0002]`) or a defined token — don't assume a named scale "just works".
    *Computed* forms DO work standalone (these are Tailwind's definitions, not opinionated values):
    fractions (`w-1/2`→50%), negatives (`-mt-4`), grid (`grid-cols-3`, `col-span-2`, `row-span-2`),
-   transforms (`scale-105`, `rotate-45`, `translate-x-2`), transitions (`duration-300`, `ease-in-out`),
+   transforms (`scale-105`, `rotate-45`, `translate-x-2`, `skew-y-3`, `scale-x-95`), transitions
+   (`duration-300`, `ease-in-out`),
+   filters (`blur-[70px]` → `filter: blur(70px)`, `brightness-50` → `brightness(0.5)`, `grayscale`,
+   `invert-25`, `hue-rotate-90`, `drop-shadow-[0_4px_6px_#0003]`, `backdrop-blur-[8px]`, `blur-(--glow)`;
+   the length scales `blur-sm`/`blur-md`/`drop-shadow-md` are unsupported — use brackets),
    and borders — `border`, `border-b`, `border-2`, `border-t-4`, `border-x`, `border-solid` render a
    visible `1px solid` border, color inherits (Meno has no Preflight, so a width-only border would be
    invisible); set the color with `border-<token>`/`border-[#hex]`, the style with `border-dashed`.
    Tailwind palette colors (`border-gray-200`) stay unsupported — use a token.
+   **Tailwind idioms with NO effect here — write the working form instead:**
+   - `md:`/`lg:`/`sm:` min-width variants → desktop-first `max-lg:` (≤1024px) / `max-sm:` (≤540px) only.
+   - `dark:`, `group-hover:`, `peer-*` → not modeled; only `hover:`/`focus:`/`active:` exist (theme via tokens).
+   - Gradient stops `bg-gradient-to-r from-… via-… to-…` → ONE arbitrary value:
+     `bg-[linear-gradient(to_right,#111,#333)]`.
+   - `space-y-4`/`space-x-*`/`divide-*` (child selectors) → flex/grid + `gap-4`.
+   - `truncate` → `overflow-hidden text-ellipsis whitespace-nowrap`; `line-clamp-3` →
+     `[display:-webkit-box] [-webkit-line-clamp:3] [-webkit-box-orient:vertical] overflow-hidden`.
+   - `ring-2` → `outline-2 outline-<token> outline-offset-2` (or `shadow-[0_0_0_3px_#0003]`).
+   - `animate-spin`/`animate-*` → define `@keyframes` in a component `<style>` (an allowed use) and
+     reference it: `[animation:spin_1s_linear_infinite]`.
+   - `container` → `w-full max-w-[1200px] mx-auto`.
+   - `sr-only`/`antialiased` (multi-property) → arbitrary properties (`[clip:rect(0,0,0,0)]`, …) or omit.
    Three things CAN'T be a static class (they need per-instance prop values) → runtime helpers:
    - **Prop-bound `{{template}}`** (`gap: "{{gap}}px"`) — keeps a `style({...})` call (round-trip)
      AND emits inline. On a component root wrap the inline as
@@ -67,6 +90,10 @@ needs detail beyond this cheat-sheet.
      `class={cx(style(OBJ, __props), className)}`. A per-use override on an instance rides its `class`
      prop (`<Card class="p-[24px]" />`); the `instance`/`root`/`__menoStyle` markers are emit-only
      (dropped on parse) — match emit's forms when hand-authoring.
+   A node's editor **layer name** rides the reserved `data-meno-label="…"` attribute (parses to the
+   model's `label`, never to a real attribute/prop — keep it when editing, add one to name a layer);
+   only a node that already carries a `style()` call keeps its label inside the `style()` meta
+   argument (`style({…}, __props, { label: "…" })`) instead.
 
 2. **i18n values live in `i18n({...})`** with the `{ _i18n: true, en, pl, ... }` shape.
    ✅ `<Heading text={i18n({ _i18n: true, en: "About", pl: "O nas" })} />`
@@ -103,7 +130,7 @@ needs detail beyond this cheat-sheet.
    `style()` tables): **no trailing commas** and **no ES6 shorthand** — write `{ size: size }`, not
    `{ size }`, and no comma before a closing `}`. A violation throws `parseLiteral: expected object
    key` / `expected ":"`, and **a file that fails to parse gets no utility CSS at all** (it renders
-   unstyled, silently) — sanity-check with the codec (step 4 below) after non-trivial edits. For
+   unstyled, silently) — so hold this rule in mind as you write. For
    prop-driven styling, bind `variants()`/`style()` to the whole props object:
    `const __props = resolveProps(Astro, {...}); const { ...names, class: className } = __props;`.
    Component metadata (`acceptsStyles`, `libraries`) goes in
@@ -348,11 +375,9 @@ const { text, class: className } = resolveProps(Astro, {
    `example-astro/src/**` is the reference for real generated output).
 3. **Edit the `resolveProps(Astro, {…})` literal** for prop changes; the destructured
    names + their inferred TS types are regenerated on save.
-4. **Validate mentally against the grammar** above before writing. If the project has the
-   codec available, you can sanity-check a snippet round-trips with:
-   ```
-   bun -e 'import {emit,parse,normalizeModel} from "meno-astro/dialect"; /* parse(src) then emit(model) */'
-   ```
+4. **Validate mentally against the grammar** above before writing — that's the check. Don't
+   shell out to the codec to round-trip a snippet, and don't write tooling to parse-check
+   your edits; the editor reports parse failures on its own.
 5. **Stay inside the grammar.** Anything you can't express in dialect (ad-hoc Astro frontmatter
    logic) will be lost on the next save — flag it instead of writing it. A utility/foreign
    `class="…"` IS in the grammar now (rule 1).

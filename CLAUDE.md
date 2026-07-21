@@ -1,4 +1,4 @@
-<!-- MENO_DOCS_VERSION: 0.1.26 -->
+<!-- MENO_DOCS_VERSION: 0.1.33 -->
 # Meno is a visual Astro editor
 
 Meno reads and writes `.astro` files in a constrained *meno-astro dialect* — a small subset of Astro
@@ -14,6 +14,15 @@ lists, conditionals — straight from the tripwires, node/prop forms, and skelet
 **[When to go deeper](#when-to-go-deeper)** (CMS template pages, islands, custom components,
 prop-variant / component-root styling, deep "will this round-trip?" questions, the full Studio API).
 Don't load the skill for a routine edit.
+
+---
+
+## Where you work
+
+**Work only in the codebase.** Do not use or interact with the Meno Studio interface — don't drive
+the editor UI, open its preview/browser, or automate its panels. Make every change by editing the
+project's files directly (`.astro`, CMS JSON, `project.config.json`, `src/styles/theme.css`, assets);
+the visual editor picks your edits up on its own.
 
 ---
 
@@ -36,6 +45,25 @@ Read `.meno/selection.json` for the element currently selected in the editor.
 
 ---
 
+## Git: uncommitted changes are the user's visual edits
+
+Meno Studio saves every visual edit straight to the working tree (`src/`, `public/`,
+`project.config.json`) and **never commits or pushes**. Dirty files you did not write yourself are
+the user's unsaved visual work — treat them like an open, unsaved document, never as scratch state.
+
+- **Tree already dirty when you start, or before any branch switch / pull / rebase / commit of your
+  own?** Commit those changes separately FIRST —
+  `git add -A && git commit -m "chore(meno): visual edits from Meno Studio"` — so they are never
+  swept into an unrelated commit or left blocking a checkout.
+- **Never discard them** — no `git checkout -- .`, `git reset --hard`, or stash-and-forget to
+  "clean up" the tree. If they conflict with your task, commit them first and tell the user.
+- **Pushing is on you** — the editor never pushes. When the user asks whether their work "is on
+  GitHub", check for BOTH unpushed commits and uncommitted visual edits, then commit + push.
+- CMS drafts (`src/content/<collection>/<id>.draft.json`) are unpublished content — committing them
+  is fine (production builds ignore drafts).
+
+---
+
 ## Round-trip tripwires (the cardinal don'ts)
 
 Scannable rules that keep an edit round-tripping and building. The positive forms for each live in the
@@ -49,12 +77,33 @@ node/prop catalog + skeletons below.
    `font-sans` emit `var(--token)` and render **only if that variable is defined** in `src/styles/theme.css` —
    else inert (Meno is token-based; no fallback to Tailwind's px/rem). For a one-off use a bracket
    (`text-[18px]`) or define the token. *Computed* forms work standalone: `w-1/2`, `-mt-4`, `grid-cols-3`,
-   `col-span-2`, `scale-105`, `rotate-45`, `duration-300`, `ease-in-out`, and borders (`border`,
+   `col-span-2`, `scale-105`, `rotate-45`, `skew-y-3`, `duration-300`, `ease-in-out`, filters (`blur-[70px]` →
+   `filter: blur(70px)`, `brightness-50`, `grayscale`, `hue-rotate-90`, `backdrop-blur-[8px]`, …; the
+   length scales `blur-sm`/`drop-shadow-md` are unsupported — use brackets), and borders (`border`,
    `border-b`, `border-2`, `border-solid` → a visible `1px solid` border, color inherits; set it with
-   `border-<token>`/`border-[#hex]`). **Only** prop-bound
+   `border-<token>`/`border-[#hex]`). **Tailwind idioms with NO effect here — write the working form
+   instead**: `md:`/`lg:` min-width variants (desktop-first `max-lg:`/`max-sm:` only) · `dark:`/
+   `group-hover:` (only `hover:`/`focus:`/`active:` exist) · gradient stops `bg-gradient-to-r from-… to-…`
+   (→ one value: `bg-[linear-gradient(to_right,#111,#333)]`) · `space-y-*`/`divide-*` (→ flex/grid +
+   `gap-*`) · `truncate` (→ `overflow-hidden text-ellipsis whitespace-nowrap`) · `line-clamp-N`
+   (→ `[display:-webkit-box] [-webkit-line-clamp:N] [-webkit-box-orient:vertical] overflow-hidden`) ·
+   `ring-*` (→ `outline-2 outline-<token> outline-offset-2` or a `shadow-[…]`) · `animate-*` (→
+   `@keyframes` in a component `<style>` + `[animation:spin_1s_linear_infinite]`) · `container` (→
+   `w-full max-w-[1200px] mx-auto`). **Only** prop-bound
    `{{template}}`, prop-variant, and component-root styling can't be a class → `style()` / `variants()` / `cx()`.
    It styles **every** node the same way — an `<Embed>`, `<Link>`, or `<Markdown>` carries `class="…"`
    just like a `<div>` (an instance rides its `class` prop); only `list`/`island`/`slot`/`custom` have no styling.
+   A node's editor **layer name** rides the reserved `data-meno-label="…"` attribute (it parses to the
+   model's `label`, never to a real attribute/prop — keep it when editing, add one to name a layer);
+   only a node that already carries a `style()` call keeps its label inside the `style()` meta argument
+   (`style({…}, __props, { label: "…" })`) instead.
+   **Building something NEW — even on a blank project — uses the same form.** Never scaffold a design
+   as semantic classes + CSS (`class="hero"` + a `<style>`/stylesheet defining `.hero { … }`): it
+   builds, but it's foreign CSS the visual styles panel can't represent, so the design lands visually
+   un-editable. Define the design system as tokens in `src/styles/theme.css` first, then style with
+   utility classes bound to them (`bg-primary`, `text-muted`; brackets for one-offs). A component
+   `<style>` is only for what utilities can't express — `@keyframes`, `::before`/`::after`, complex
+   selectors — never layout/spacing/color/typography.
 2. **i18n values are wrapped** — `i18n({ _i18n: true, en: "About", pl: "O nas" })`, never a bare string.
 3. **Meno templates** — model `{{expr}}` ↔ markup `{expr}` (bare identifier / member / ternary) or
    `` `…${expr}…` ``.
@@ -232,5 +281,5 @@ CLAUDE.md covers everyday editing. Load more **only** for the specialized cases:
   site (Webflow export etc.) into Meno components.** The end-to-end playbook + hard-won runtime gotchas
   the specs omit: utility CSS is generated by parsing each `.astro` into the model (a file that fails to
   parse silently gets **no CSS**); the parser's **no-trailing-comma / no-shorthand** rule; when to use
-  `variants()` vs `style()` (**token colors work only via `style()`**, never `variants()`); the `border`
-  gotcha; and the parse/emit checker to run after every component edit.
+  `variants()` vs `style()` (**token colors work only via `style()`**, never `variants()`); and the
+  `border` gotcha.
